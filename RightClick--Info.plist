@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>LSUIElement</key>
+	<true/>
+	<key>Privacy - Accessibility Usage Description</key>
+	<string>RightClick+ necesita acceso para detectar clics del mouse</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>RightClick+ necesita permiso para pedirle al Finder que cree archivos.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>RightClick+ necesita permiso para crear archivos en tu Escritorio.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>RightClick+ necesita permiso para crear archivos en tus Documentos.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>RightClick+ necesita permiso para crear archivos en tus Descargas.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>gimomagic.RightClick-</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>rightclickplus</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
