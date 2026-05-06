@@ -4,12 +4,10 @@ import ServiceManagement
 import os
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var statusItem: NSStatusItem?
     var pollTimer: Timer?
     let log = OSLog(subsystem: "gimomagic.RightClick-", category: "AppDelegate")
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        setupMenuBar()
         registerLoginItem()
         startPolling()
         checkExtensionEnabled()
@@ -26,24 +24,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 FIFinderSyncController.showExtensionManagementInterface()
             }
         }
-    }
-
-    // MARK: - Menu Bar
-
-    func setupMenuBar() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "cursorarrow.click.2", accessibilityDescription: "RightClick+")
-        }
-        let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "RightClick+ activo", action: nil, keyEquivalent: ""))
-        menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "Salir", action: #selector(quit), keyEquivalent: "q"))
-        statusItem?.menu = menu
-    }
-
-    @objc func quit() {
-        NSApplication.shared.terminate(nil)
     }
 
     // MARK: - Login Item
@@ -70,10 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let folderPath = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !folderPath.isEmpty else { return }
 
-        // Clear immediately to avoid double-processing
         try? "".write(to: queueFile, atomically: false, encoding: .utf8)
+        createFile(in: URL(fileURLWithPath: folderPath))
+    }
 
-        let folder = URL(fileURLWithPath: folderPath)
+    func createFile(in folder: URL) {
         var fileURL = folder.appendingPathComponent("Sin título.txt")
         var counter = 1
         while FileManager.default.fileExists(atPath: fileURL.path) {
@@ -84,30 +65,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try "".write(to: fileURL, atomically: false, encoding: .utf8)
             os_log("Created: %{public}@", log: log, fileURL.path)
-            beginRename(fileURL)
+            selectAndRename(fileURL)
         } catch {
             os_log("ERROR: %{public}@", log: log, error.localizedDescription)
         }
     }
 
-    func beginRename(_ fileURL: URL) {
-        let path = fileURL.path
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            // Bring Finder to front and select the file
-            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+    func selectAndRename(_ fileURL: URL) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Select the file in Finder without activating/switching the app
+            NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: fileURL.deletingLastPathComponent().path)
 
-            // After Finder is focused and file is selected, send Return via CGEvent
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                // Find Finder's PID to target the keypress directly
-                let finderApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder")
-                guard let finder = finderApps.first else { return }
-
+            // Send Return key to Finder to trigger inline rename
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard let finder = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder").first else { return }
                 let src = CGEventSource(stateID: .hidSystemState)
-                let keyDown = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: true) // Return
+                let keyDown = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: true)
                 let keyUp   = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: false)
                 keyDown?.postToPid(finder.processIdentifier)
                 keyUp?.postToPid(finder.processIdentifier)
-                os_log("Sent Return to Finder pid=%d for %{public}@", log: self.log, finder.processIdentifier, path)
             }
         }
     }
