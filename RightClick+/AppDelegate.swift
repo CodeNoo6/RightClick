@@ -109,18 +109,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let queueFile = container.appendingPathComponent("pending.txt")
         guard let raw = try? String(contentsOf: queueFile, encoding: .utf8), !raw.isEmpty else { return }
-        let folderPath = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !folderPath.isEmpty else { return }
+        let lines = raw.components(separatedBy: "\n").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
+        guard let folderPath = lines.first, !folderPath.isEmpty else { return }
+        let ext = lines.count > 1 ? lines[1] : "txt"
 
         try? "".write(to: queueFile, atomically: false, encoding: .utf8)
-        createFile(in: URL(fileURLWithPath: folderPath))
+        createFile(in: URL(fileURLWithPath: folderPath), ext: ext)
     }
 
-    func createFile(in folder: URL) {
-        var fileURL = folder.appendingPathComponent("Sin título.txt")
+    func createFile(in folder: URL, ext: String = "txt") {
+        let baseName = Locale.current.language.languageCode?.identifier == "es" ? "Sin título" : "Untitled"
+        var fileURL = folder.appendingPathComponent("\(baseName).\(ext)")
         var counter = 1
         while FileManager.default.fileExists(atPath: fileURL.path) {
-            fileURL = folder.appendingPathComponent("Sin título \(counter).txt")
+            fileURL = folder.appendingPathComponent("\(baseName) \(counter).\(ext)")
             counter += 1
         }
 
