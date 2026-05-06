@@ -11,26 +11,29 @@ class FinderSync: FIFinderSync {
         FIFinderSyncController.default().directoryURLs = [URL(fileURLWithPath: "/")]
     }
 
+    private var isSpanish: Bool {
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        return lang == "es"
+    }
+
     override func menu(for menuKind: FIMenuKind) -> NSMenu {
         let menu = NSMenu(title: "")
-        let hasSelection = !(FIFinderSyncController.default().selectedItemURLs()?.isEmpty ?? true)
+        let hasSelection = menuKind == .contextualMenuForItems &&
+            !(FIFinderSyncController.default().selectedItemURLs()?.isEmpty ?? true)
 
         if hasSelection {
-            menu.addItem(makeItem("Cortar", action: #selector(cutItems(_:)), symbol: "scissors"))
+            menu.addItem(makeItem(isSpanish ? "Cortar" : "Cut", action: #selector(cutItems(_:)), symbol: "scissors"))
         }
 
         if hasPendingCut() {
-            menu.addItem(makeItem("Pegar elemento", action: #selector(pasteItems(_:)), symbol: "doc.on.clipboard"))
+            menu.addItem(makeItem(isSpanish ? "Pegar elemento" : "Paste Item", action: #selector(pasteItems(_:)), symbol: "doc.on.clipboard"))
         }
 
-        if hasSelection || hasPendingCut() {
-            menu.addItem(.separator())
-        }
 
-        let newItem = NSMenuItem(title: "Nuevo", action: nil, keyEquivalent: "")
+        let newItem = NSMenuItem(title: isSpanish ? "Nuevo" : "New", action: nil, keyEquivalent: "")
         newItem.image = templateImage("plus")
         let submenu = NSMenu(title: "")
-        submenu.addItem(makeItem("Archivo de texto (.txt)", action: #selector(createTxt(_:)), symbol: "doc.text"))
+        submenu.addItem(makeItem(isSpanish ? "Archivo de texto (.txt)" : "Text File (.txt)", action: #selector(createTxt(_:)), symbol: "doc.text"))
         newItem.submenu = submenu
         menu.addItem(newItem)
 
@@ -58,7 +61,9 @@ class FinderSync: FIFinderSync {
         guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
 
         let paths = items.map(\.path).joined(separator: "\n")
+        try? "".write(to: container.appendingPathComponent("paste.txt"), atomically: false, encoding: .utf8)
         try? paths.write(to: container.appendingPathComponent("cut.txt"), atomically: false, encoding: .utf8)
+
         os_log("Cut %d items", log: log, items.count)
     }
 

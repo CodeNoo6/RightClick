@@ -27,6 +27,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func checkExtensionEnabled() {
         if !FIFinderSyncController.isExtensionEnabled {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                NSApp.setActivationPolicy(.regular)
+                NSApp.activate(ignoringOtherApps: true)
                 FIFinderSyncController.showExtensionManagementInterface()
             }
         }
