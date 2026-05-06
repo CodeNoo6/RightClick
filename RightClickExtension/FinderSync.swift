@@ -32,6 +32,9 @@ class FinderSync: FIFinderSync {
         let target = FIFinderSyncController.default().targetedURL()
         let items = FIFinderSyncController.default().selectedItemURLs()
 
+        os_log("targetedURL: %{public}@", log: log, target?.path ?? "nil")
+        os_log("selectedItems: %{public}@", log: log, items?.map(\.path).joined(separator: ", ") ?? "nil")
+
         let folder: URL
         if let first = items?.first {
             if (try? first.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
@@ -42,34 +45,18 @@ class FinderSync: FIFinderSync {
         } else if let t = target {
             folder = t
         } else {
-            folder = URL(fileURLWithPath: NSHomeDirectory())
+            folder = URL(fileURLWithPath: ("~/Desktop" as NSString).expandingTildeInPath)
         }
 
-        os_log("folder: %{public}@", log: log, folder.path)
+        os_log("folder resolved: %{public}@", log: log, folder.path)
 
-        var fileURL = folder.appendingPathComponent("Sin título.txt")
-        var counter = 1
-        while FileManager.default.fileExists(atPath: fileURL.path) {
-            fileURL = folder.appendingPathComponent("Sin título \(counter).txt")
-            counter += 1
-        }
+        // Always delegate to main app — it has Full Disk Access and Accessibility
+        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
+        let queueFile = container.appendingPathComponent("pending.txt")
+        try? folder.path.write(to: queueFile, atomically: true, encoding: .utf8)
 
-        do {
-            try "".write(to: fileURL, atomically: true, encoding: .utf8)
-            os_log("Successfully created file directly: %{public}@", log: log, fileURL.path)
-            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
-        } catch {
-            os_log("ERROR creating file: %{public}@", log: log, error.localizedDescription)
-            
-            // Fallback to Main App via pending.txt if direct creation fails
-            guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
-            let queueFile = container.appendingPathComponent("pending.txt")
-            try? folder.path.write(to: queueFile, atomically: true, encoding: .utf8)
-            
-            // Wake up the main app if it's closed
-            if let url = URL(string: "rightclickplus://") {
-                NSWorkspace.shared.open(url)
-            }
+        if let url = URL(string: "rightclickplus://") {
+            NSWorkspace.shared.open(url)
         }
     }
 }

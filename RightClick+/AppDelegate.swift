@@ -1,19 +1,31 @@
 import Cocoa
+import FinderSync
 import ServiceManagement
+import os
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
-    var eventStream: FSEventStreamRef?
+    var pollTimer: Timer?
+    let log = OSLog(subsystem: "gimomagic.RightClick-", category: "AppDelegate")
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupMenuBar()
         registerLoginItem()
-        watchSharedContainer()
-        triggerPrivacyPrompts()
+        startPolling()
+        checkExtensionEnabled()
     }
-    
-    func triggerPrivacyPrompts() {
-        // Obsolete
+
+    // Called by the extension via rightclickplus:// URL scheme
+    func application(_ application: NSApplication, open urls: [URL]) {
+        handlePendingFile()
+    }
+
+    func checkExtensionEnabled() {
+        if !FIFinderSyncController.isExtensionEnabled {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                FIFinderSyncController.showExtensionManagementInterface()
+            }
+        }
     }
 
     // MARK: - Menu Bar
@@ -23,7 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem?.button {
             button.image = NSImage(systemSymbolName: "cursorarrow.click.2", accessibilityDescription: "RightClick+")
         }
-
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: "RightClick+ activo", action: nil, keyEquivalent: ""))
         menu.addItem(.separator())
@@ -41,39 +52,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         try? SMAppService.mainApp.register()
     }
 
-    // MARK: - File Watcher
+    // MARK: - Polling
 
-    func watchSharedContainer() {
-        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
-
-        let path = container.path as CFString
-        var context = FSEventStreamContext(version: 0, info: Unmanaged.passUnretained(self).toOpaque(), retain: nil, release: nil, copyDescription: nil)
-
-        eventStream = FSEventStreamCreate(nil, { _, info, _, _, _, _ in
-            guard let info else { return }
-            let delegate = Unmanaged<AppDelegate>.fromOpaque(info).takeUnretainedValue()
-            delegate.handlePendingFile()
-        }, &context, [path] as CFArray, FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 0.1, FSEventStreamCreateFlags(kFSEventStreamCreateFlagFileEvents))
-
-        if let stream = eventStream {
-            FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
-            FSEventStreamStart(stream)
+    func startPolling() {
+        pollTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { [weak self] _ in
+            self?.handlePendingFile()
         }
     }
+
+    // MARK: - File Creation
 
     func handlePendingFile() {
         guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
 
         let queueFile = container.appendingPathComponent("pending.txt")
-        guard let folderPathRaw = try? String(contentsOf: queueFile, encoding: .utf8), !folderPathRaw.isEmpty else { return }
-        let folderPath = folderPathRaw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let raw = try? String(contentsOf: queueFile, encoding: .utf8), !raw.isEmpty else { return }
+        let folderPath = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !folderPath.isEmpty else { return }
 
-        do {
-            try "".write(to: queueFile, atomically: true, encoding: .utf8)
-        } catch {
-            print("Error clearing pending file: \(error)")
-        }
+        // Clear immediately to avoid double-processing
+        try? "".write(to: queueFile, atomically: false, encoding: .utf8)
 
         let folder = URL(fileURLWithPath: folderPath)
         var fileURL = folder.appendingPathComponent("Sin título.txt")
@@ -83,32 +81,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             counter += 1
         }
 
-        print("Attempting to create file in folder: \(folderPath)")
         do {
-            try "".write(to: fileURL, atomically: true, encoding: .utf8)
-            print("Successfully created file: \(fileURL.path)")
-            NSWorkspace.shared.open(fileURL)
+            try "".write(to: fileURL, atomically: false, encoding: .utf8)
+            os_log("Created: %{public}@", log: log, fileURL.path)
+            beginRename(fileURL)
         } catch {
-            print("CRITICAL Error creating file at \(fileURL.path): \(error)")
-            let errorDesc = error.localizedDescription
-            
-            // Fallback: If it failed, it means TCC (macOS security) is blocking us.
-            // We must show an alert and open System Settings for the user.
-            DispatchQueue.main.async {
-                NSApp.activate(ignoringOtherApps: true)
-                let alert = NSAlert()
-                alert.messageText = "Permiso Requerido / Permission Required"
-                alert.informativeText = "Detalle del error: \(errorDesc)\n\nRightClick+ necesita 'Acceso total al disco' (Full Disk Access) para crear archivos.\n\nPor favor, haz clic en 'Abrir Configuración' (Open Settings), enciende el interruptor de RightClick+ y vuelve a intentarlo."
-                alert.alertStyle = .critical
-                alert.addButton(withTitle: "Open Settings / Abrir Configuración")
-                alert.addButton(withTitle: "Cancel")
-                
-                let response = alert.runModal()
-                if response == .alertFirstButtonReturn {
-                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
-                        NSWorkspace.shared.open(url)
-                    }
-                }
+            os_log("ERROR: %{public}@", log: log, error.localizedDescription)
+        }
+    }
+
+    func beginRename(_ fileURL: URL) {
+        let path = fileURL.path
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // Bring Finder to front and select the file
+            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+
+            // After Finder is focused and file is selected, send Return via CGEvent
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                // Find Finder's PID to target the keypress directly
+                let finderApps = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder")
+                guard let finder = finderApps.first else { return }
+
+                let src = CGEventSource(stateID: .hidSystemState)
+                let keyDown = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: true) // Return
+                let keyUp   = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: false)
+                keyDown?.postToPid(finder.processIdentifier)
+                keyUp?.postToPid(finder.processIdentifier)
+                os_log("Sent Return to Finder pid=%d for %{public}@", log: self.log, finder.processIdentifier, path)
             }
         }
     }
