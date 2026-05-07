@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Background rounded rect -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="#1A1A2E"/>
+
+  <!-- Everything shifted down ~90px to center vertically (was y=240, now y=330) -->
+
+  <!-- Context menu panel -->
+  <rect x="180" y="330" width="440" height="300" rx="18" ry="18" fill="#FFFFFF"/>
+
+  <!-- Top header row (highlighted) -->
+  <rect x="180" y="330" width="440" height="58" rx="18" ry="18" fill="#5B6CF6"/>
+  <rect x="180" y="360" width="440" height="28" fill="#5B6CF6"/>
+
+  <!-- Header text bar -->
+  <rect x="214" y="348" width="180" height="22" rx="6" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="392" y="348" width="22" height="22" rx="5" fill="#FFFFFF" opacity="0.5"/>
+
+  <!-- Row 2 -->
+  <rect x="214" y="416" width="150" height="18" rx="5" fill="#CCCCDD" opacity="0.7"/>
+  <rect x="392" y="413" width="22" height="22" rx="5" fill="#E8E8F0"/>
+
+  <!-- Row 3 -->
+  <rect x="214" y="462" width="180" height="18" rx="5" fill="#CCCCDD" opacity="0.7"/>
+  <rect x="392" y="459" width="22" height="22" rx="5" fill="#E8E8F0"/>
+
+  <!-- Row 4 -->
+  <rect x="214" y="508" width="130" height="18" rx="5" fill="#CCCCDD" opacity="0.7"/>
+  <rect x="392" y="505" width="22" height="22" rx="5" fill="#E8E8F0"/>
+
+  <!-- Divider lines -->
+  <line x1="196" y1="402" x2="604" y2="402" stroke="#E0E0EE" stroke-width="2"/>
+  <line x1="196" y1="446" x2="604" y2="446" stroke="#E0E0EE" stroke-width="2"/>
+  <line x1="196" y1="490" x2="604" y2="490" stroke="#E0E0EE" stroke-width="2"/>
+
+  <!-- Cursor arrow -->
+  <g transform="translate(530, 550)">
+    <polygon points="0,0 0,160 42,118 72,190 96,180 66,108 122,108" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Plus badge circle -->
+  <circle cx="720" cy="410" r="90" fill="#5B6CF6"/>
+  <rect x="680" y="398" width="80" height="24" rx="12" fill="#FFFFFF"/>
+  <rect x="708" y="370" width="24" height="80" rx="12" fill="#FFFFFF"/>
+</svg>
