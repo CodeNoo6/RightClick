@@ -62,7 +62,7 @@ class FinderSync: FIFinderSync {
 
     private func templateImage(_ symbol: String) -> NSImage? {
         let config = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
-            .applying(NSImage.SymbolConfiguration(paletteColors: [.white]))
+            .applying(NSImage.SymbolConfiguration(paletteColors: [.labelColor]))
         guard let img = NSImage(systemSymbolName: symbol, accessibilityDescription: nil) else { return nil }
         return img.withSymbolConfiguration(config)
     }
