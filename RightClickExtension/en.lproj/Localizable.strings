@@ -1,0 +1,25 @@
+/* Context menu items */
+"menu.cut" = "Cut";
+"menu.paste" = "Paste Item";
+"menu.new" = "New";
+
+/* File types */
+"file.txt" = "Text File (.txt)";
+"file.md" = "Markdown (.md)";
+"file.docx" = "Word Document (.docx)";
+"file.xlsx" = "Excel Spreadsheet (.xlsx)";
+"file.pptx" = "PowerPoint (.pptx)";
+"file.pages" = "Pages Document (.pages)";
+"file.numbers" = "Numbers Spreadsheet (.numbers)";
+"file.key" = "Keynote Presentation (.key)";
+"file.json" = "JSON File (.json)";
+"file.csv" = "CSV File (.csv)";
+"file.html" = "HTML File (.html)";
+"file.py" = "Python Script (.py)";
+"file.js" = "JavaScript (.js)";
+"file.swift" = "Swift File (.swift)";
+"file.sh" = "Shell Script (.sh)";
+"file.rtf" = "Rich Text (.rtf)";
+
+/* File base name when created */
+"file.untitled" = "Untitled";

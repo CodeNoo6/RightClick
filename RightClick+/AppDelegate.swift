@@ -81,7 +81,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func createFile(in folder: URL, ext: String = "txt") {
-        let baseName = Locale.current.language.languageCode?.identifier == "es" ? "Sin título" : "Untitled"
+        let baseName = NSLocalizedString("file.untitled", comment: "")
         var fileURL = folder.appendingPathComponent("\(baseName).\(ext)")
         var counter = 1
         while FileManager.default.fileExists(atPath: fileURL.path) {

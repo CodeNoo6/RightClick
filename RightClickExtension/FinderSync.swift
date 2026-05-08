@@ -11,8 +11,8 @@ class FinderSync: FIFinderSync {
         FIFinderSyncController.default().directoryURLs = [URL(fileURLWithPath: "/")]
     }
 
-    private var isSpanish: Bool {
-        Locale.current.language.languageCode?.identifier == "es"
+    private func loc(_ key: String) -> String {
+        NSLocalizedString(key, bundle: Bundle(for: FinderSync.self), comment: "")
     }
 
     override func menu(for menuKind: FIMenuKind) -> NSMenu {
@@ -21,32 +21,32 @@ class FinderSync: FIFinderSync {
             !(FIFinderSyncController.default().selectedItemURLs()?.isEmpty ?? true)
 
         if hasSelection {
-            menu.addItem(makeItem(isSpanish ? "Cortar" : "Cut", action: #selector(cutItems(_:)), symbol: "scissors"))
+            menu.addItem(makeItem(loc("menu.cut"), action: #selector(cutItems(_:)), symbol: "scissors"))
         }
 
         if hasPendingCut() {
-            menu.addItem(makeItem(isSpanish ? "Pegar elemento" : "Paste Item", action: #selector(pasteItems(_:)), symbol: "doc.on.clipboard"))
+            menu.addItem(makeItem(loc("menu.paste"), action: #selector(pasteItems(_:)), symbol: "doc.on.clipboard"))
         }
 
-        let newItem = NSMenuItem(title: isSpanish ? "Nuevo" : "New", action: nil, keyEquivalent: "")
+        let newItem = NSMenuItem(title: loc("menu.new"), action: nil, keyEquivalent: "")
         newItem.image = templateImage("plus")
         let submenu = NSMenu(title: "")
-        submenu.addItem(makeItem(isSpanish ? "Archivo de texto (.txt)" : "Text File (.txt)", action: #selector(createTxt(_:)), symbol: "doc.text"))
-        submenu.addItem(makeItem(isSpanish ? "Markdown (.md)" : "Markdown (.md)", action: #selector(createMd(_:)), symbol: "text.alignleft"))
-        submenu.addItem(makeItem(isSpanish ? "Documento Word (.docx)" : "Word Document (.docx)", action: #selector(createDocx(_:)), symbol: "doc.fill"))
-        submenu.addItem(makeItem(isSpanish ? "Hoja Excel (.xlsx)" : "Excel Spreadsheet (.xlsx)", action: #selector(createXlsx(_:)), symbol: "tablecells"))
-        submenu.addItem(makeItem(isSpanish ? "Presentación PowerPoint (.pptx)" : "PowerPoint (.pptx)", action: #selector(createPptx(_:)), symbol: "rectangle.on.rectangle"))
-        submenu.addItem(makeItem(isSpanish ? "Documento Pages (.pages)" : "Pages Document (.pages)", action: #selector(createPages(_:)), symbol: "doc.fill"))
-        submenu.addItem(makeItem(isSpanish ? "Hoja Numbers (.numbers)" : "Numbers Spreadsheet (.numbers)", action: #selector(createNumbers(_:)), symbol: "tablecells"))
-        submenu.addItem(makeItem(isSpanish ? "Presentación Keynote (.key)" : "Keynote Presentation (.key)", action: #selector(createKey(_:)), symbol: "rectangle.on.rectangle"))
-        submenu.addItem(makeItem(isSpanish ? "Archivo JSON (.json)" : "JSON File (.json)", action: #selector(createJson(_:)), symbol: "curlybraces"))
-        submenu.addItem(makeItem(isSpanish ? "Archivo CSV (.csv)" : "CSV File (.csv)", action: #selector(createCsv(_:)), symbol: "tablecells"))
-        submenu.addItem(makeItem(isSpanish ? "Archivo HTML (.html)" : "HTML File (.html)", action: #selector(createHtml(_:)), symbol: "chevron.left.forwardslash.chevron.right"))
-        submenu.addItem(makeItem(isSpanish ? "Script Python (.py)" : "Python Script (.py)", action: #selector(createPy(_:)), symbol: "terminal"))
-        submenu.addItem(makeItem(isSpanish ? "Archivo JavaScript (.js)" : "JavaScript (.js)", action: #selector(createJs(_:)), symbol: "terminal"))
-        submenu.addItem(makeItem(isSpanish ? "Archivo Swift (.swift)" : "Swift File (.swift)", action: #selector(createSwift(_:)), symbol: "swift"))
-        submenu.addItem(makeItem(isSpanish ? "Script Shell (.sh)" : "Shell Script (.sh)", action: #selector(createSh(_:)), symbol: "terminal"))
-        submenu.addItem(makeItem(isSpanish ? "Texto enriquecido (.rtf)" : "Rich Text (.rtf)", action: #selector(createRtf(_:)), symbol: "doc.richtext"))
+        submenu.addItem(makeItem(loc("file.txt"),     action: #selector(createTxt(_:)),     symbol: "doc.text"))
+        submenu.addItem(makeItem(loc("file.md"),      action: #selector(createMd(_:)),      symbol: "text.alignleft"))
+        submenu.addItem(makeItem(loc("file.docx"),    action: #selector(createDocx(_:)),    symbol: "doc.fill"))
+        submenu.addItem(makeItem(loc("file.xlsx"),    action: #selector(createXlsx(_:)),    symbol: "tablecells"))
+        submenu.addItem(makeItem(loc("file.pptx"),    action: #selector(createPptx(_:)),    symbol: "rectangle.on.rectangle"))
+        submenu.addItem(makeItem(loc("file.pages"),   action: #selector(createPages(_:)),   symbol: "doc.fill"))
+        submenu.addItem(makeItem(loc("file.numbers"), action: #selector(createNumbers(_:)), symbol: "tablecells"))
+        submenu.addItem(makeItem(loc("file.key"),     action: #selector(createKey(_:)),     symbol: "rectangle.on.rectangle"))
+        submenu.addItem(makeItem(loc("file.json"),    action: #selector(createJson(_:)),    symbol: "curlybraces"))
+        submenu.addItem(makeItem(loc("file.csv"),     action: #selector(createCsv(_:)),     symbol: "tablecells"))
+        submenu.addItem(makeItem(loc("file.html"),    action: #selector(createHtml(_:)),    symbol: "chevron.left.forwardslash.chevron.right"))
+        submenu.addItem(makeItem(loc("file.py"),      action: #selector(createPy(_:)),      symbol: "terminal"))
+        submenu.addItem(makeItem(loc("file.js"),      action: #selector(createJs(_:)),      symbol: "terminal"))
+        submenu.addItem(makeItem(loc("file.swift"),   action: #selector(createSwift(_:)),   symbol: "swift"))
+        submenu.addItem(makeItem(loc("file.sh"),      action: #selector(createSh(_:)),      symbol: "terminal"))
+        submenu.addItem(makeItem(loc("file.rtf"),     action: #selector(createRtf(_:)),     symbol: "doc.richtext"))
         newItem.submenu = submenu
         menu.addItem(newItem)
 
