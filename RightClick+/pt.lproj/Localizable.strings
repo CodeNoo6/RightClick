@@ -1,0 +1,36 @@
+"file.untitled" = "Sem título";
+
+"menu.about" = "Sobre o RightClick+";
+"menu.version" = "Versão %@";
+"menu.plan.free" = "Plano: Grátis";
+"menu.plan.pro" = "Plano: Pro ✓";
+
+"upgrade.title" = "Atualizar para Pro";
+"upgrade.subtitle" = "Desbloqueie todos os recursos do RightClick+";
+"upgrade.feat1" = "✓  Recortar e colar arquivos no Finder";
+"upgrade.feat2" = "✓  Formatos Office e Apple (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  Recursos e atualizações futuras";
+"upgrade.monthly" = "$ 1,99 / mês";
+"upgrade.annual" = "$ 9,99 / ano  (economize 58%)";
+"upgrade.lifetime" = "$ 14,99  pagamento único";
+"upgrade.buy" = "Obter Pro →";
+"upgrade.key_placeholder" = "Chave de licença  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "Ativar";
+"upgrade.cancel" = "Talvez mais tarde";
+
+"license.activated" = "🎉 Pro ativado! Obrigado.";
+"license.invalid_format" = "Formato inválido. Use XXXX-XXXX-XXXX-XXXX.";
+"license.invalid_key" = "Chave não encontrada. Verifique seu e-mail.";
+
+"onboarding.title" = "Bem-vindo ao RightClick+";
+"onboarding.subtitle" = "Dois passos rápidos para começar";
+"onboarding.step1.title" = "Ativar a extensão do Finder";
+"onboarding.step1.detail" = "Uma janela do sistema será aberta. Marque a caixa ao lado de RightClick+ para ativá-la.";
+"onboarding.step1.done" = "✓ Extensão do Finder ativa.";
+"onboarding.step2.title" = "Permitir renomeação automática";
+"onboarding.step2.detail" = "Conceda acesso de Acessibilidade nas Configurações do Sistema para que novos arquivos sejam renomeados automaticamente.";
+"onboarding.step2.done" = "✓ Renomeação automática ativada.";
+"onboarding.btn.step1" = "Passo 1: Ativar extensão →";
+"onboarding.btn.step2" = "Passo 2: Permitir renomeação →";
+"onboarding.btn.done" = "Tudo pronto — Fechar";
+"onboarding.skip" = "Farei mais tarde";

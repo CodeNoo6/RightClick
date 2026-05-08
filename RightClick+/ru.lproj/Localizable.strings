@@ -1,0 +1,36 @@
+"file.untitled" = "Без имени";
+
+"menu.about" = "О программе RightClick+";
+"menu.version" = "Версия %@";
+"menu.plan.free" = "Тариф: Бесплатный";
+"menu.plan.pro" = "Тариф: Pro ✓";
+
+"upgrade.title" = "Перейти на Pro";
+"upgrade.subtitle" = "Разблокируйте все функции RightClick+";
+"upgrade.feat1" = "✓  Вырезать и вставить файлы в Finder";
+"upgrade.feat2" = "✓  Форматы Office и Apple (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  Будущие функции и обновления";
+"upgrade.monthly" = "$1.99 / месяц";
+"upgrade.annual" = "$9.99 / год  (экономия 58%)";
+"upgrade.lifetime" = "$14.99  единовременно";
+"upgrade.buy" = "Получить Pro →";
+"upgrade.key_placeholder" = "Лицензионный ключ  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "Активировать";
+"upgrade.cancel" = "Может быть позже";
+
+"license.activated" = "🎉 Pro активирован! Спасибо.";
+"license.invalid_format" = "Неверный формат. Используйте XXXX-XXXX-XXXX-XXXX.";
+"license.invalid_key" = "Ключ не найден. Проверьте вашу почту.";
+
+"onboarding.title" = "Добро пожаловать в RightClick+";
+"onboarding.subtitle" = "Два быстрых шага для начала работы";
+"onboarding.step1.title" = "Включить расширение Finder";
+"onboarding.step1.detail" = "Откроется системное окно. Установите флажок рядом с RightClick+, чтобы активировать его.";
+"onboarding.step1.done" = "✓ Расширение Finder активно.";
+"onboarding.step2.title" = "Разрешить автоматическое переименование";
+"onboarding.step2.detail" = "Предоставьте доступ к Специальным возможностям в Системных настройках, чтобы новые файлы автоматически переходили в режим переименования.";
+"onboarding.step2.done" = "✓ Автоматическое переименование включено.";
+"onboarding.btn.step1" = "Шаг 1: Включить расширение →";
+"onboarding.btn.step2" = "Шаг 2: Разрешить переименование →";
+"onboarding.btn.done" = "Готово — Закрыть";
+"onboarding.skip" = "Сделаю позже";

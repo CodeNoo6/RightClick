@@ -8,12 +8,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
         registerLoginItem()
+        setupMenuBar()
         checkExtensionEnabled()
-        DispatchQueue.main.async {
-            self.setupMenuBar()
-        }
     }
 
     func setupMenuBar() {
@@ -22,9 +19,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image = makeMenuBarMouseIcon()
         }
         let menu = NSMenu()
-        let title = NSMenuItem(title: "RightClick+", action: nil, keyEquivalent: "")
-        title.isEnabled = false
-        menu.addItem(title)
+
+        // About
+        let aboutItem = NSMenuItem(title: NSLocalizedString("menu.about", comment: ""), action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
+        // Version
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0"
+        let versionItem = NSMenuItem(title: String(format: NSLocalizedString("menu.version", comment: ""), version), action: nil, keyEquivalent: "")
+        versionItem.isEnabled = false
+        menu.addItem(versionItem)
+
+        // Plan
+        let isPro = (try? String(contentsOf: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick")!.appendingPathComponent("license.txt"), encoding: .utf8))?.trimmingCharacters(in: .whitespacesAndNewlines) == "pro"
+        let planKey = isPro ? "menu.plan.pro" : "menu.plan.free"
+        let planItem = NSMenuItem(title: NSLocalizedString(planKey, comment: ""), action: isPro ? nil : #selector(openUpgrade), keyEquivalent: "")
+        planItem.target = self
+        menu.addItem(planItem)
+
         menu.addItem(.separator())
         // let uninstall = NSMenuItem(title: "Uninstall RightClick+…", action: #selector(uninstallApp), keyEquivalent: "")
         // uninstall.target = self
@@ -83,6 +96,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // Revoke all other TCC permissions
             "tccutil reset All \(bundleID)",
             "tccutil reset All \(extBundleID)",
+            // Flush preferences daemon cache
+            "killall cfprefsd",
         ].joined(separator: "; ")
 
         let script = "do shell script \"\(cmds.replacingOccurrences(of: "\"", with: "\\\""))\" with administrator privileges"
@@ -140,28 +155,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for url in urls {
             guard let host = url.host else { continue }
             switch host {
-            case "create": handleCreate(url: url)
-            case "paste":  handlePaste(url: url)
+            case "create":  handleCreate(url: url)
+            case "paste":   handlePaste(url: url)
+            case "upgrade": UpgradeWindowController.shared.show()
             default: break
             }
         }
     }
 
     func checkExtensionEnabled() {
-        let fullySetUp = FIFinderSyncController.isExtensionEnabled && AXIsProcessTrusted()
-            && UserDefaults.standard.bool(forKey: "onboardingComplete")
-        if !fullySetUp {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                NSApp.setActivationPolicy(.regular)
-                NSApp.activate(ignoringOtherApps: true)
-                OnboardingWindowController.shared.showWindow(nil)
-                OnboardingWindowController.shared.window?.center()
-            }
+        let onboardingDone = UserDefaults.standard.bool(forKey: "onboardingComplete")
+        if onboardingDone {
+            NSApp.setActivationPolicy(.accessory)
+            return
         }
+
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        OnboardingWindowController.shared.showWindow(nil)
+        OnboardingWindowController.shared.window?.makeKeyAndOrderFront(nil)
+        OnboardingWindowController.shared.window?.center()
     }
 
     func registerLoginItem() {
         try? SMAppService.mainApp.register()
+    }
+
+    @objc func showAbout() {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        NSApp.orderFrontStandardAboutPanel(nil)
+    }
+
+    @objc func openUpgrade() {
+        UpgradeWindowController.shared.show()
     }
 
     // MARK: - Create

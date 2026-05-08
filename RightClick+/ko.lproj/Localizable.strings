@@ -1,0 +1,36 @@
+"file.untitled" = "제목 없음";
+
+"menu.about" = "RightClick+ 정보";
+"menu.version" = "버전 %@";
+"menu.plan.free" = "플랜: 무료";
+"menu.plan.pro" = "플랜: Pro ✓";
+
+"upgrade.title" = "Pro로 업그레이드";
+"upgrade.subtitle" = "RightClick+의 모든 기능 잠금 해제";
+"upgrade.feat1" = "✓  Finder에서 파일 잘라내기 및 붙여넣기";
+"upgrade.feat2" = "✓  Office 및 Apple 형식 (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  향후 기능 및 업데이트";
+"upgrade.monthly" = "$1.99 / 월";
+"upgrade.annual" = "$9.99 / 년  (58% 절약)";
+"upgrade.lifetime" = "$14.99  일회성 결제";
+"upgrade.buy" = "Pro 구매 →";
+"upgrade.key_placeholder" = "라이선스 키  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "활성화";
+"upgrade.cancel" = "나중에";
+
+"license.activated" = "🎉 Pro 활성화 완료! 감사합니다.";
+"license.invalid_format" = "잘못된 형식입니다. XXXX-XXXX-XXXX-XXXX 형식을 사용하세요.";
+"license.invalid_key" = "키를 찾을 수 없습니다. 이메일을 확인하세요.";
+
+"onboarding.title" = "RightClick+에 오신 것을 환영합니다";
+"onboarding.subtitle" = "시작하기 위한 두 가지 빠른 단계";
+"onboarding.step1.title" = "Finder 확장 프로그램 활성화";
+"onboarding.step1.detail" = "시스템 창이 열립니다. RightClick+ 옆의 확인란을 선택하여 활성화하세요.";
+"onboarding.step1.done" = "✓ Finder 확장 프로그램이 활성화되었습니다.";
+"onboarding.step2.title" = "자동 이름 바꾸기 허용";
+"onboarding.step2.detail" = "새 파일의 이름을 자동으로 바꿀 수 있도록 시스템 설정에서 손쉬운 사용 접근을 허용하세요.";
+"onboarding.step2.done" = "✓ 자동 이름 바꾸기가 활성화되었습니다.";
+"onboarding.btn.step1" = "1단계: 확장 프로그램 활성화 →";
+"onboarding.btn.step2" = "2단계: 자동 이름 바꾸기 허용 →";
+"onboarding.btn.done" = "완료 — 닫기";
+"onboarding.skip" = "나중에 하겠습니다";

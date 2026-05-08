@@ -1,0 +1,36 @@
+"file.untitled" = "名称未設定";
+
+"menu.about" = "RightClick+について";
+"menu.version" = "バージョン %@";
+"menu.plan.free" = "プラン：無料";
+"menu.plan.pro" = "プラン：Pro ✓";
+
+"upgrade.title" = "Proにアップグレード";
+"upgrade.subtitle" = "RightClick+のすべての機能を解放";
+"upgrade.feat1" = "✓  Finderでファイルをカット＆ペースト";
+"upgrade.feat2" = "✓  OfficeおよびApple形式（docx、xlsx、pptx、pages…）";
+"upgrade.feat3" = "✓  将来の機能とアップデート";
+"upgrade.monthly" = "$1.99 / 月";
+"upgrade.annual" = "$9.99 / 年  (58%お得)";
+"upgrade.lifetime" = "$14.99  買い切り";
+"upgrade.buy" = "Proを取得 →";
+"upgrade.key_placeholder" = "ライセンスキー  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "有効化";
+"upgrade.cancel" = "後で";
+
+"license.activated" = "🎉 Proが有効になりました！ありがとうございます。";
+"license.invalid_format" = "形式が無効です。XXXX-XXXX-XXXX-XXXXの形式を使用してください。";
+"license.invalid_key" = "キーが見つかりません。メールを確認してください。";
+
+"onboarding.title" = "RightClick+へようこそ";
+"onboarding.subtitle" = "始めるための2つのステップ";
+"onboarding.step1.title" = "Finder拡張機能を有効化";
+"onboarding.step1.detail" = "システムウィンドウが開きます。RightClick+の横のチェックボックスをオンにしてください。";
+"onboarding.step1.done" = "✓ Finder拡張機能が有効です。";
+"onboarding.step2.title" = "自動リネームを許可";
+"onboarding.step2.detail" = "システム設定でアクセシビリティアクセスを許可して、新しいファイルの名前変更を自動化します。";
+"onboarding.step2.done" = "✓ 自動リネームが有効です。";
+"onboarding.btn.step1" = "ステップ1：拡張機能を有効化 →";
+"onboarding.btn.step2" = "ステップ2：自動リネームを許可 →";
+"onboarding.btn.done" = "完了 — 閉じる";
+"onboarding.skip" = "後で行う";

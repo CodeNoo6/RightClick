@@ -1,0 +1,36 @@
+"file.untitled" = "未命名";
+
+"menu.about" = "关于 RightClick+";
+"menu.version" = "版本 %@";
+"menu.plan.free" = "方案：免费";
+"menu.plan.pro" = "方案：Pro ✓";
+
+"upgrade.title" = "升级到 Pro";
+"upgrade.subtitle" = "解锁 RightClick+ 的所有功能";
+"upgrade.feat1" = "✓  在 Finder 中剪切和粘贴文件";
+"upgrade.feat2" = "✓  Office 和 Apple 格式（docx、xlsx、pptx、pages…）";
+"upgrade.feat3" = "✓  未来功能和更新";
+"upgrade.monthly" = "$1.99 / 月";
+"upgrade.annual" = "$9.99 / 年  (节省 58%)";
+"upgrade.lifetime" = "$14.99  一次性付款";
+"upgrade.buy" = "获取 Pro →";
+"upgrade.key_placeholder" = "许可证密钥  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "激活";
+"upgrade.cancel" = "稍后再说";
+
+"license.activated" = "🎉 Pro 已激活！谢谢。";
+"license.invalid_format" = "格式无效。请使用 XXXX-XXXX-XXXX-XXXX。";
+"license.invalid_key" = "未找到密钥。请检查您的电子邮件。";
+
+"onboarding.title" = "欢迎使用 RightClick+";
+"onboarding.subtitle" = "两个快速步骤即可开始";
+"onboarding.step1.title" = "启用 Finder 扩展";
+"onboarding.step1.detail" = "将打开系统窗口。勾选 RightClick+ 旁边的复选框以激活它。";
+"onboarding.step1.done" = "✓ Finder 扩展已激活。";
+"onboarding.step2.title" = "允许自动重命名";
+"onboarding.step2.detail" = "在系统设置中授予辅助功能访问权限，以便新文件自动准备好重命名。";
+"onboarding.step2.done" = "✓ 自动重命名已启用。";
+"onboarding.btn.step1" = "第1步：启用扩展 →";
+"onboarding.btn.step2" = "第2步：允许自动重命名 →";
+"onboarding.btn.done" = "完成 — 关闭";
+"onboarding.skip" = "稍后再做";

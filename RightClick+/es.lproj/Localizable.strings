@@ -1,5 +1,27 @@
 "file.untitled" = "Sin título";
 
+"menu.about" = "Acerca de RightClick+";
+"menu.version" = "Versión %@";
+"menu.plan.free" = "Plan: Gratis";
+"menu.plan.pro" = "Plan: Pro ✓";
+
+"upgrade.title" = "Actualizar a Pro";
+"upgrade.subtitle" = "Desbloquea todas las funciones de RightClick+";
+"upgrade.feat1" = "✓  Cortar y pegar archivos en Finder";
+"upgrade.feat2" = "✓  Formatos Office y Apple (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  Funciones y actualizaciones futuras";
+"upgrade.monthly" = "$1.99 / mes";
+"upgrade.annual" = "$9.99 / año  (ahorra 58%)";
+"upgrade.lifetime" = "$14.99  pago único";
+"upgrade.buy" = "Obtener Pro →";
+"upgrade.key_placeholder" = "Clave de licencia  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "Activar";
+"upgrade.cancel" = "Quizás después";
+
+"license.activated" = "🎉 ¡Pro activado! Gracias.";
+"license.invalid_format" = "Formato inválido. Usa XXXX-XXXX-XXXX-XXXX.";
+"license.invalid_key" = "Clave no encontrada. Revisa tu correo.";
+
 "onboarding.title" = "Bienvenido a RightClick+";
 "onboarding.subtitle" = "Dos pasos rápidos para empezar";
 "onboarding.step1.title" = "Activar la extensión de Finder";

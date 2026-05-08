@@ -121,11 +121,17 @@ class OnboardingView: NSView {
         ])
 
         refreshState()
+        startPolling()
     }
 
     private func refreshState() {
-        step1Done = FIFinderSyncController.isExtensionEnabled
-        step2Done = AXIsProcessTrusted()
+        // FIFinderSyncController.isExtensionEnabled is unreliable on Sequoia — don't overwrite step1Done if already set
+        if !step1Done {
+            step1Done = FIFinderSyncController.isExtensionEnabled
+        }
+        if !step2Done {
+            step2Done = AXIsProcessTrusted()
+        }
         updateCardHighlight(step1Card, done: step1Done, number: "1",
             title: NSLocalizedString("onboarding.step1.title", comment: ""),
             detail: step1Done ? NSLocalizedString("onboarding.step1.done", comment: "") : NSLocalizedString("onboarding.step1.detail", comment: ""))
@@ -154,15 +160,26 @@ class OnboardingView: NSView {
             NSApp.setActivationPolicy(.regular)
             NSApp.activate(ignoringOtherApps: true)
             FIFinderSyncController.showExtensionManagementInterface()
+            // When user returns to the app, mark step1 done
+            NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification,
+                                                   object: nil, queue: .main) { [weak self] note in
+                NotificationCenter.default.removeObserver(note)
+                self?.step1Done = true
+                self?.refreshState()
+            }
             startPolling()
         } else {
-            if !AXIsProcessTrusted() {
-                let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
-                AXIsProcessTrustedWithOptions(opts)
-            } else {
-                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
-                    NSWorkspace.shared.open(url)
-                }
+            let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
+            AXIsProcessTrustedWithOptions(opts)
+            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
+                NSWorkspace.shared.open(url)
+            }
+            // When user returns to the app, mark step2 done
+            NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification,
+                                                   object: nil, queue: .main) { [weak self] note in
+                NotificationCenter.default.removeObserver(note)
+                self?.step2Done = true
+                self?.refreshState()
             }
             startPolling()
         }
@@ -176,9 +193,11 @@ class OnboardingView: NSView {
     private func startPolling() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.refreshState()
-            if self?.step1Done == true && self?.step2Done == true {
-                self?.timer?.invalidate()
+            guard let self else { return }
+            self.refreshState()
+            if self.step1Done && self.step2Done {
+                self.timer?.invalidate()
+                // Auto-advance to done state — user just needs to tap the green button
             }
         }
     }

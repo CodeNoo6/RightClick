@@ -1,0 +1,36 @@
+"file.untitled" = "بدون عنوان";
+
+"menu.about" = "حول RightClick+";
+"menu.version" = "الإصدار %@";
+"menu.plan.free" = "الخطة: مجانية";
+"menu.plan.pro" = "الخطة: Pro ✓";
+
+"upgrade.title" = "الترقية إلى Pro";
+"upgrade.subtitle" = "فتح جميع ميزات RightClick+";
+"upgrade.feat1" = "✓  قص ولصق الملفات في Finder";
+"upgrade.feat2" = "✓  تنسيقات Office وApple (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  ميزات وتحديثات مستقبلية";
+"upgrade.monthly" = "1.99 دولار / شهر";
+"upgrade.annual" = "9.99 دولار / سنة  (وفر 58%)";
+"upgrade.lifetime" = "14.99 دولار  دفعة واحدة";
+"upgrade.buy" = "احصل على Pro ←";
+"upgrade.key_placeholder" = "مفتاح الترخيص  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "تفعيل";
+"upgrade.cancel" = "ربما لاحقاً";
+
+"license.activated" = "🎉 تم تفعيل Pro! شكراً.";
+"license.invalid_format" = "تنسيق غير صالح. استخدم XXXX-XXXX-XXXX-XXXX.";
+"license.invalid_key" = "المفتاح غير موجود. تحقق من بريدك الإلكتروني.";
+
+"onboarding.title" = "مرحباً بك في RightClick+";
+"onboarding.subtitle" = "خطوتان سريعتان للبدء";
+"onboarding.step1.title" = "تفعيل امتداد Finder";
+"onboarding.step1.detail" = "ستفتح نافذة النظام. ضع علامة في المربع بجوار RightClick+ لتفعيله.";
+"onboarding.step1.done" = "✓ امتداد Finder نشط.";
+"onboarding.step2.title" = "السماح بإعادة التسمية التلقائية";
+"onboarding.step2.detail" = "امنح صلاحية الوصول للإمكانية في إعدادات النظام حتى تكون الملفات الجديدة جاهزة للتسمية تلقائياً.";
+"onboarding.step2.done" = "✓ إعادة التسمية التلقائية مفعّلة.";
+"onboarding.btn.step1" = "الخطوة 1: تفعيل الامتداد ←";
+"onboarding.btn.step2" = "الخطوة 2: السماح بإعادة التسمية ←";
+"onboarding.btn.done" = "تم — إغلاق";
+"onboarding.skip" = "سأفعل ذلك لاحقاً";

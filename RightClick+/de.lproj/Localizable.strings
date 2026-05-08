@@ -1,0 +1,36 @@
+"file.untitled" = "Ohne Titel";
+
+"menu.about" = "Über RightClick+";
+"menu.version" = "Version %@";
+"menu.plan.free" = "Plan: Kostenlos";
+"menu.plan.pro" = "Plan: Pro ✓";
+
+"upgrade.title" = "Upgrade auf Pro";
+"upgrade.subtitle" = "Alle Funktionen von RightClick+ freischalten";
+"upgrade.feat1" = "✓  Dateien im Finder ausschneiden und einfügen";
+"upgrade.feat2" = "✓  Office- und Apple-Formate (docx, xlsx, pptx, pages…)";
+"upgrade.feat3" = "✓  Zukünftige Funktionen und Updates";
+"upgrade.monthly" = "1,99 $ / Monat";
+"upgrade.annual" = "9,99 $ / Jahr  (58 % sparen)";
+"upgrade.lifetime" = "14,99 $  einmalig";
+"upgrade.buy" = "Pro holen →";
+"upgrade.key_placeholder" = "Lizenzschlüssel  (XXXX-XXXX-XXXX-XXXX)";
+"upgrade.activate" = "Aktivieren";
+"upgrade.cancel" = "Vielleicht später";
+
+"license.activated" = "🎉 Pro aktiviert! Danke.";
+"license.invalid_format" = "Ungültiges Format. Verwenden Sie XXXX-XXXX-XXXX-XXXX.";
+"license.invalid_key" = "Schlüssel nicht gefunden. Prüfen Sie Ihre E-Mail.";
+
+"onboarding.title" = "Willkommen bei RightClick+";
+"onboarding.subtitle" = "Zwei schnelle Schritte zum Starten";
+"onboarding.step1.title" = "Finder-Erweiterung aktivieren";
+"onboarding.step1.detail" = "Ein Systemfenster öffnet sich. Aktivieren Sie das Kontrollkästchen neben RightClick+.";
+"onboarding.step1.done" = "✓ Finder-Erweiterung aktiv.";
+"onboarding.step2.title" = "Automatisches Umbenennen erlauben";
+"onboarding.step2.detail" = "Erteilen Sie in den Systemeinstellungen Zugriff auf Bedienungshilfen, damit neue Dateien umbenannt werden können.";
+"onboarding.step2.done" = "✓ Automatisches Umbenennen aktiviert.";
+"onboarding.btn.step1" = "Schritt 1: Erweiterung aktivieren →";
+"onboarding.btn.step2" = "Schritt 2: Umbenennen erlauben →";
+"onboarding.btn.done" = "Fertig — Schließen";
+"onboarding.skip" = "Später erledigen";
