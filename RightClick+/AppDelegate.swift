@@ -19,8 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setupMenuBar() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "contextualmenu.and.cursorarrow", accessibilityDescription: "RightClick+")
-            button.image?.isTemplate = true
+            button.image = makeMenuBarMouseIcon()
         }
         let menu = NSMenu()
         let title = NSMenuItem(title: "RightClick+", action: nil, keyEquivalent: "")
@@ -29,6 +28,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
+    }
+
+    func makeMenuBarMouseIcon() -> NSImage {
+        let config = NSImage.SymbolConfiguration(pointSize: 16, weight: .regular)
+        guard let outline = NSImage(systemSymbolName: "computermouse", accessibilityDescription: nil)?
+                .withSymbolConfiguration(config),
+              let filled = NSImage(systemSymbolName: "computermouse.fill", accessibilityDescription: nil)?
+                .withSymbolConfiguration(config) else { return NSImage() }
+
+        let size = outline.size  // 15x20
+
+        func tinted(_ src: NSImage, _ color: NSColor) -> NSImage {
+            let img = NSImage(size: size)
+            img.lockFocus()
+            color.set()
+            NSRect(origin: .zero, size: size).fill()
+            src.draw(in: NSRect(origin: .zero, size: size),
+                     from: .zero, operation: .destinationIn, fraction: 1)
+            img.unlockFocus()
+            return img
+        }
+
+        // Base: outline blanco (mouse completo sin relleno)
+        let whiteOutline = tinted(outline, .black)
+        // Relleno negro solo en click derecho: clipear filled al tercio derecho
+        let blackFilled = tinted(filled, .black)
+
+        // El botón derecho: mitad derecha, parte superior (sobre el divisor horizontal)
+        // En computermouse: divisor horizontal está a ~55% de la altura
+        let splitX = size.width / 2
+        let splitY = size.height * 0.55  // divisor horizontal (scroll wheel)
+
+        let result = NSImage(size: size)
+        result.lockFocus()
+
+        // 1. Mouse outline completo en negro
+        whiteOutline.draw(in: NSRect(origin: .zero, size: size))
+
+        // 2. Relleno negro solo en el botón derecho (mitad derecha, zona superior)
+        NSGraphicsContext.saveGraphicsState()
+        let buttonPath = NSBezierPath(rect: NSRect(x: splitX, y: splitY, width: size.width - splitX, height: size.height - splitY))
+        buttonPath.addClip()
+        blackFilled.draw(in: NSRect(origin: .zero, size: size))
+        NSGraphicsContext.restoreGraphicsState()
+
+        result.unlockFocus()
+        result.isTemplate = false
+        return result
     }
 
     // Called by the extension via rightclickplus:// URL scheme
@@ -44,14 +91,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func checkExtensionEnabled() {
-        if !FIFinderSyncController.isExtensionEnabled {
+        let fullySetUp = FIFinderSyncController.isExtensionEnabled && AXIsProcessTrusted()
+            && UserDefaults.standard.bool(forKey: "onboardingComplete")
+        if !fullySetUp {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 NSApp.setActivationPolicy(.regular)
                 NSApp.activate(ignoringOtherApps: true)
-                FIFinderSyncController.showExtensionManagementInterface()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    NSApp.setActivationPolicy(.accessory)
-                }
+                OnboardingWindowController.shared.showWindow(nil)
+                OnboardingWindowController.shared.window?.center()
             }
         }
     }
@@ -100,35 +147,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func selectAndRename(_ fileURL: URL) {
         let path = fileURL.path
-        let folder = fileURL.deletingLastPathComponent().path
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            guard let finder = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder").first else { return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Step 1: select the file inside whatever Finder window is already showing the folder
+            let selectScript = """
+            tell application "Finder"
+                set theFile to POSIX file "\(path)" as alias
+                select theFile
+                activate
+            end tell
+            """
+            var err1: NSDictionary?
+            NSAppleScript(source: selectScript)?.executeAndReturnError(&err1)
+            os_log("select err=%{public}@", log: self.log, "\(err1 as Any)")
 
-            NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: folder)
-            finder.activate(options: .activateIgnoringOtherApps)
+            // Wait for Finder to process the selection
+            Thread.sleep(forTimeInterval: 0.4)
 
-            // Poll until Finder is actually the frontmost app, then send Return
-            self.sendReturnWhenFinderIsFront(finderPID: finder.processIdentifier, attempts: 10)
-        }
-    }
-
-    private func sendReturnWhenFinderIsFront(finderPID: pid_t, attempts: Int) {
-        guard attempts > 0 else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            guard let front = NSWorkspace.shared.frontmostApplication,
-                  front.processIdentifier == finderPID else {
-                // Finder not front yet, retry
-                self.sendReturnWhenFinderIsFront(finderPID: finderPID, attempts: attempts - 1)
-                return
-            }
-            let src = CGEventSource(stateID: .combinedSessionState)
-            let keyDown = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: true)
-            let keyUp   = CGEvent(keyboardEventSource: src, virtualKey: 0x24, keyDown: false)
-            keyDown?.postToPid(finderPID)
-            keyUp?.postToPid(finderPID)
-            os_log("Sent Return to Finder (frontmost)", log: self.log)
+            // Step 2: send Enter (keycode 36) to enter rename mode — only if Finder is frontmost
+            let renameScript = """
+            tell application "System Events"
+                tell process "Finder"
+                    set frontmost to true
+                    key code 36
+                end tell
+            end tell
+            """
+            var err2: NSDictionary?
+            NSAppleScript(source: renameScript)?.executeAndReturnError(&err2)
+            os_log("rename err=%{public}@", log: self.log, "\(err2 as Any)")
         }
     }
 

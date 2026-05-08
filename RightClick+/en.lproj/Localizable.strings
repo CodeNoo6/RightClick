@@ -1,1 +1,14 @@
 "file.untitled" = "Untitled";
+
+"onboarding.title" = "Welcome to RightClick+";
+"onboarding.subtitle" = "Two quick steps to get started";
+"onboarding.step1.title" = "Enable Finder Extension";
+"onboarding.step1.detail" = "A system window will open. Check the box next to RightClick+ to activate it.";
+"onboarding.step1.done" = "✓ Finder Extension is active.";
+"onboarding.step2.title" = "Allow Auto-Rename";
+"onboarding.step2.detail" = "Grant Accessibility access in System Settings so new files open ready to rename automatically.";
+"onboarding.step2.done" = "✓ Auto-rename is enabled.";
+"onboarding.btn.step1" = "Step 1: Enable Extension →";
+"onboarding.btn.step2" = "Step 2: Allow Auto-Rename →";
+"onboarding.btn.done" = "All set — Close";
+"onboarding.skip" = "I'll do it later";

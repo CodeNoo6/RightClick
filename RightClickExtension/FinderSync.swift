@@ -29,7 +29,7 @@ class FinderSync: FIFinderSync {
         }
 
         let newItem = NSMenuItem(title: loc("menu.new"), action: nil, keyEquivalent: "")
-        newItem.image = templateImage("plus")
+        newItem.image = templateImage("document.badge.plus")
         let submenu = NSMenu(title: "")
         submenu.addItem(makeItem(loc("file.txt"),     action: #selector(createTxt(_:)),     symbol: "doc.text"))
         submenu.addItem(makeItem(loc("file.md"),      action: #selector(createMd(_:)),      symbol: "text.alignleft"))

@@ -1,1 +1,14 @@
 "file.untitled" = "Sin título";
+
+"onboarding.title" = "Bienvenido a RightClick+";
+"onboarding.subtitle" = "Dos pasos rápidos para empezar";
+"onboarding.step1.title" = "Activar la extensión de Finder";
+"onboarding.step1.detail" = "Se abrirá una ventana del sistema. Marca la casilla junto a RightClick+ para activarla.";
+"onboarding.step1.done" = "✓ Extensión de Finder activa.";
+"onboarding.step2.title" = "Permitir Auto-Renombrar";
+"onboarding.step2.detail" = "Concede acceso de Accesibilidad en Ajustes del Sistema para que los archivos nuevos estén listos para renombrar.";
+"onboarding.step2.done" = "✓ Auto-renombrar activado.";
+"onboarding.btn.step1" = "Paso 1: Activar extensión →";
+"onboarding.btn.step2" = "Paso 2: Permitir renombrar →";
+"onboarding.btn.done" = "Listo — Cerrar";
+"onboarding.skip" = "Lo haré después";
