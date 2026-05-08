@@ -26,8 +26,69 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         title.isEnabled = false
         menu.addItem(title)
         menu.addItem(.separator())
+        // let uninstall = NSMenuItem(title: "Uninstall RightClick+…", action: #selector(uninstallApp), keyEquivalent: "")
+        // uninstall.target = self
+        // menu.addItem(uninstall)
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem?.menu = menu
+    }
+
+    @objc func uninstallApp() {
+        let alert = NSAlert()
+        alert.messageText = "Uninstall RightClick+?"
+        alert.informativeText = "This will completely remove the app, all data, permissions, and login item registration."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Uninstall")
+        alert.addButton(withTitle: "Cancel")
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        guard alert.runModal() == .alertFirstButtonReturn else {
+            NSApp.setActivationPolicy(.accessory)
+            return
+        }
+
+        // 1. Unregister login item
+        try? SMAppService.mainApp.unregister()
+
+        // 2. Clear UserDefaults (main app + shared suite)
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier ?? "")
+        UserDefaults(suiteName: "653RS235MN.gimomagic.RightClick")?.removePersistentDomain(forName: "653RS235MN.gimomagic.RightClick")
+
+        // 3. Remove App Group container data
+        if let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") {
+            try? FileManager.default.removeItem(at: container)
+        }
+
+        // 4. Full cleanup via shell with admin: app, caches, prefs, saved state, TCC reset
+        let bundleID = "gimomagic.RightClick-"
+        let extBundleID = "gimomagic.RightClick-.RightClickExtension"
+        let home = NSHomeDirectory()
+
+        let cmds = [
+            // App bundle
+            "rm -rf /Applications/RightClick+.app",
+            // Preferences
+            "rm -f \(home)/Library/Preferences/\(bundleID).plist",
+            "rm -f \(home)/Library/Preferences/\(extBundleID).plist",
+            // Caches
+            "rm -rf \(home)/Library/Caches/\(bundleID)",
+            "rm -rf \(home)/Library/Caches/\(extBundleID)",
+            // Saved Application State
+            "rm -rf \(home)/Library/Saved\\ Application\\ State/\(bundleID).savedState",
+            // Application Support
+            "rm -rf \(home)/Library/Application\\ Support/\(bundleID)",
+            // Revoke Accessibility permission from TCC database
+            "tccutil reset Accessibility \(bundleID)",
+            "tccutil reset Accessibility \(extBundleID)",
+            // Revoke all other TCC permissions
+            "tccutil reset All \(bundleID)",
+            "tccutil reset All \(extBundleID)",
+        ].joined(separator: "; ")
+
+        let script = "do shell script \"\(cmds.replacingOccurrences(of: "\"", with: "\\\""))\" with administrator privileges"
+        NSAppleScript(source: script)?.executeAndReturnError(nil)
+
+        NSApp.terminate(nil)
     }
 
     func makeMenuBarMouseIcon() -> NSImage {
@@ -37,12 +98,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
               let filled = NSImage(systemSymbolName: "computermouse.fill", accessibilityDescription: nil)?
                 .withSymbolConfiguration(config) else { return NSImage() }
 
-        let size = outline.size  // 15x20
+        let size = outline.size
 
-        func tinted(_ src: NSImage, _ color: NSColor) -> NSImage {
+        // Render a source image as black mask
+        func mask(_ src: NSImage) -> NSImage {
             let img = NSImage(size: size)
             img.lockFocus()
-            color.set()
+            NSColor.black.set()
             NSRect(origin: .zero, size: size).fill()
             src.draw(in: NSRect(origin: .zero, size: size),
                      from: .zero, operation: .destinationIn, fraction: 1)
@@ -50,31 +112,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return img
         }
 
-        // Base: outline blanco (mouse completo sin relleno)
-        let whiteOutline = tinted(outline, .black)
-        // Relleno negro solo en click derecho: clipear filled al tercio derecho
-        let blackFilled = tinted(filled, .black)
+        let outlineMask = mask(outline)
+        let filledMask  = mask(filled)
 
-        // El botón derecho: mitad derecha, parte superior (sobre el divisor horizontal)
-        // En computermouse: divisor horizontal está a ~55% de la altura
         let splitX = size.width / 2
-        let splitY = size.height * 0.55  // divisor horizontal (scroll wheel)
+        let splitY = size.height * 0.55
 
         let result = NSImage(size: size)
         result.lockFocus()
 
-        // 1. Mouse outline completo en negro
-        whiteOutline.draw(in: NSRect(origin: .zero, size: size))
+        // 1. Outline completo (silueta del mouse)
+        outlineMask.draw(in: NSRect(origin: .zero, size: size))
 
-        // 2. Relleno negro solo en el botón derecho (mitad derecha, zona superior)
+        // 2. Relleno solo en botón derecho (mitad derecha, zona superior)
         NSGraphicsContext.saveGraphicsState()
-        let buttonPath = NSBezierPath(rect: NSRect(x: splitX, y: splitY, width: size.width - splitX, height: size.height - splitY))
-        buttonPath.addClip()
-        blackFilled.draw(in: NSRect(origin: .zero, size: size))
+        NSBezierPath(rect: NSRect(x: splitX, y: splitY, width: size.width - splitX, height: size.height - splitY)).addClip()
+        filledMask.draw(in: NSRect(origin: .zero, size: size))
         NSGraphicsContext.restoreGraphicsState()
 
         result.unlockFocus()
-        result.isTemplate = false
+        result.isTemplate = true  // el sistema aplica blanco/negro según el tema
         return result
     }
 

@@ -2,6 +2,8 @@
 "menu.cut" = "Cortar";
 "menu.paste" = "Pegar elemento";
 "menu.new" = "Nuevo";
+"menu.toggleHidden" = "Mostrar archivos ocultos";
+"menu.toggleHidden.hide" = "Ocultar archivos ocultos";
 
 /* File types */
 "file.txt" = "Archivo de texto (.txt)";

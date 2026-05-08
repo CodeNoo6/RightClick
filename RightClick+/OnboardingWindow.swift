@@ -156,13 +156,14 @@ class OnboardingView: NSView {
             FIFinderSyncController.showExtensionManagementInterface()
             startPolling()
         } else {
-            // Open System Settings Accessibility pane directly
-            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
-                NSWorkspace.shared.open(url)
+            if !AXIsProcessTrusted() {
+                let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
+                AXIsProcessTrustedWithOptions(opts)
+            } else {
+                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
+                    NSWorkspace.shared.open(url)
+                }
             }
-            // Also trigger the system prompt as fallback
-            let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
-            AXIsProcessTrustedWithOptions(opts)
             startPolling()
         }
     }

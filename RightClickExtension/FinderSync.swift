@@ -50,6 +50,12 @@ class FinderSync: FIFinderSync {
         newItem.submenu = submenu
         menu.addItem(newItem)
 
+        let hiddenVisible = UserDefaults(suiteName: "com.apple.finder")?
+            .bool(forKey: "AppleShowAllFiles") ?? false
+        let toggleTitle = hiddenVisible ? loc("menu.toggleHidden.hide") : loc("menu.toggleHidden")
+        let toggleSymbol = hiddenVisible ? "eye.slash" : "eye"
+        menu.addItem(makeItem(toggleTitle, action: #selector(toggleHiddenFiles(_:)), symbol: toggleSymbol))
+
         return menu
     }
 
@@ -128,6 +134,20 @@ class FinderSync: FIFinderSync {
         guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return }
         try? "\(folder.path)\n\(ext)".write(to: container.appendingPathComponent("pending.txt"), atomically: false, encoding: .utf8)
         NSWorkspace.shared.open(URL(string: "rightclickplus://create")!)
+    }
+
+    // MARK: - Archivos ocultos
+
+    @objc func toggleHiddenFiles(_ sender: Any?) {
+        let defaults = UserDefaults(suiteName: "com.apple.finder")
+        let current = defaults?.bool(forKey: "AppleShowAllFiles") ?? false
+        defaults?.set(!current, forKey: "AppleShowAllFiles")
+        defaults?.synchronize()
+        // Restart Finder to apply
+        let task = Process()
+        task.launchPath = "/usr/bin/killall"
+        task.arguments = ["Finder"]
+        try? task.run()
     }
 
     // MARK: - Helpers

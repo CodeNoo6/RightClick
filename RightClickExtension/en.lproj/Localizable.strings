@@ -2,6 +2,8 @@
 "menu.cut" = "Cut";
 "menu.paste" = "Paste Item";
 "menu.new" = "New";
+"menu.toggleHidden" = "Show Hidden Files";
+"menu.toggleHidden.hide" = "Hide Hidden Files";
 
 /* File types */
 "file.txt" = "Text File (.txt)";
