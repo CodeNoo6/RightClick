@@ -4,23 +4,37 @@
 "menu.version" = "버전 %@";
 "menu.plan.free" = "플랜: 무료";
 "menu.plan.pro" = "플랜: Pro ✓";
+"menu.checkForUpdates" = "업데이트 확인…";
 
 "upgrade.title" = "Pro로 업그레이드";
 "upgrade.subtitle" = "RightClick+의 모든 기능 잠금 해제";
 "upgrade.feat1" = "✓  Finder에서 파일 잘라내기 및 붙여넣기";
 "upgrade.feat2" = "✓  Office 및 Apple 형식 (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  향후 기능 및 업데이트";
-"upgrade.monthly" = "$1.99 / 월";
-"upgrade.annual" = "$9.99 / 년  (58% 절약)";
-"upgrade.lifetime" = "$14.99  일회성 결제";
+"upgrade.monthly" = "$1 / 월";
+"upgrade.annual" = "$11 / 년  (58% 절약)";
 "upgrade.buy" = "Pro 구매 →";
 "upgrade.key_placeholder" = "라이선스 키  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "활성화";
 "upgrade.cancel" = "나중에";
 
-"license.activated" = "🎉 Pro 활성화 완료! 감사합니다.";
+"license.activated" = "🎉 평생 Pro 활성화 완료! 감사합니다.";
+"license.activated_monthly" = "🎉 월간 Pro 활성화 완료! %d일 남았습니다.";
+"license.activated_annual" = "🎉 연간 Pro 활성화 완료! %d일 남았습니다.";
 "license.invalid_format" = "잘못된 형식입니다. XXXX-XXXX-XXXX-XXXX 형식을 사용하세요.";
 "license.invalid_key" = "키를 찾을 수 없습니다. 이메일을 확인하세요.";
+"license.expired" = "라이선스가 만료되었습니다. 갱신해 주세요.";
+
+"license.expiry.soon.title" = "라이선스가 %d일 후 만료됩니다";
+"license.expiry.soon.body" = "지금 갱신하여 모든 Pro 기능을 계속 사용하세요.";
+"license.expiry.today.title" = "라이선스가 오늘 만료됩니다";
+"license.expiry.today.body" = "지금 갱신하여 Pro 기능 접근을 잃지 마세요.";
+"license.expiry.renew" = "갱신하기 →";
+"license.expiry.dismiss" = "나중에 알림";
+
+"menu.plan.monthly" = "플랜: 월간 Pro ✓ (%d일 남음)";
+"menu.plan.annual" = "플랜: 연간 Pro ✓ (%d일 남음)";
+"menu.plan.lifetime" = "플랜: 평생 Pro ✓";
 
 "onboarding.title" = "RightClick+에 오신 것을 환영합니다";
 "onboarding.subtitle" = "시작하기 위한 두 가지 빠른 단계";

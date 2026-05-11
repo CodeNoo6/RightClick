@@ -3,24 +3,37 @@
 "menu.about" = "About RightClick+";
 "menu.version" = "Version %@";
 "menu.plan.free" = "Plan: Free";
-"menu.plan.pro" = "Plan: Pro ✓";
+"menu.plan.monthly" = "Plan: Monthly Pro ✓ (%d days left)";
+"menu.plan.annual" = "Plan: Annual Pro ✓ (%d days left)";
+"menu.plan.lifetime" = "Plan: Lifetime Pro ✓";
+"menu.checkForUpdates" = "Check for Updates…";
 
 "upgrade.title" = "Upgrade to Pro";
 "upgrade.subtitle" = "Unlock all features of RightClick+";
 "upgrade.feat1" = "✓  Cut & Paste files in Finder";
 "upgrade.feat2" = "✓  Office & Apple formats (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  Future features & updates";
-"upgrade.monthly" = "$1.99 / month";
-"upgrade.annual" = "$9.99 / year  (save 58%)";
-"upgrade.lifetime" = "$14.99  one-time";
+"upgrade.monthly" = "$1 / month";
+"upgrade.annual" = "$11 / year  (save 58%)";
 "upgrade.buy" = "Get Pro →";
 "upgrade.key_placeholder" = "License key  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "Activate";
 "upgrade.cancel" = "Maybe later";
 
-"license.activated" = "🎉 Pro activated! Thank you.";
+"license.activated" = "🎉 Lifetime Pro activated! Thank you.";
+"license.activated_monthly" = "🎉 Monthly Pro activated! %d days remaining.";
+"license.activated_annual" = "🎉 Annual Pro activated! %d days remaining.";
 "license.invalid_format" = "Invalid key format. Use XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "License key not found. Check your email.";
+"license.expired" = "Your license has expired. Please renew.";
+"license.already_used" = "This key is already active on another device.";
+
+"license.expiry.soon.title" = "Your license expires in %d day(s)";
+"license.expiry.soon.body" = "Renew now to keep all Pro features without interruption.";
+"license.expiry.today.title" = "Your license expires today";
+"license.expiry.today.body" = "Renew now to avoid losing access to Pro features.";
+"license.expiry.renew" = "Renew →";
+"license.expiry.dismiss" = "Remind me later";
 
 "onboarding.title" = "Welcome to RightClick+";
 "onboarding.subtitle" = "Two quick steps to get started";

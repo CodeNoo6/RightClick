@@ -4,23 +4,37 @@
 "menu.version" = "版本 %@";
 "menu.plan.free" = "方案：免费";
 "menu.plan.pro" = "方案：Pro ✓";
+"menu.checkForUpdates" = "检查更新…";
 
 "upgrade.title" = "升级到 Pro";
 "upgrade.subtitle" = "解锁 RightClick+ 的所有功能";
 "upgrade.feat1" = "✓  在 Finder 中剪切和粘贴文件";
 "upgrade.feat2" = "✓  Office 和 Apple 格式（docx、xlsx、pptx、pages…）";
 "upgrade.feat3" = "✓  未来功能和更新";
-"upgrade.monthly" = "$1.99 / 月";
-"upgrade.annual" = "$9.99 / 年  (节省 58%)";
-"upgrade.lifetime" = "$14.99  一次性付款";
+"upgrade.monthly" = "$1 / 月";
+"upgrade.annual" = "$11 / 年  (节省 58%)";
 "upgrade.buy" = "获取 Pro →";
 "upgrade.key_placeholder" = "许可证密钥  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "激活";
 "upgrade.cancel" = "稍后再说";
 
-"license.activated" = "🎉 Pro 已激活！谢谢。";
+"license.activated" = "🎉 终身 Pro 已激活！谢谢。";
+"license.activated_monthly" = "🎉 月度 Pro 已激活！剩余 %d 天。";
+"license.activated_annual" = "🎉 年度 Pro 已激活！剩余 %d 天。";
 "license.invalid_format" = "格式无效。请使用 XXXX-XXXX-XXXX-XXXX。";
 "license.invalid_key" = "未找到密钥。请检查您的电子邮件。";
+"license.expired" = "您的许可证已过期。请续订。";
+
+"license.expiry.soon.title" = "您的许可证将在 %d 天后到期";
+"license.expiry.soon.body" = "立即续订以不间断地保留所有 Pro 功能。";
+"license.expiry.today.title" = "您的许可证今天到期";
+"license.expiry.today.body" = "立即续订以避免失去对 Pro 功能的访问。";
+"license.expiry.renew" = "立即续订 →";
+"license.expiry.dismiss" = "稍后提醒";
+
+"menu.plan.monthly" = "方案：月度 Pro ✓（剩余 %d 天）";
+"menu.plan.annual" = "方案：年度 Pro ✓（剩余 %d 天）";
+"menu.plan.lifetime" = "方案：终身 Pro ✓";
 
 "onboarding.title" = "欢迎使用 RightClick+";
 "onboarding.subtitle" = "两个快速步骤即可开始";

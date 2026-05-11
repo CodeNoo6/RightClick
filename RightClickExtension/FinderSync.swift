@@ -16,11 +16,22 @@ class FinderSync: FIFinderSync {
     }
 
     private var isPro: Bool {
-        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick"),
-              let content = try? String(contentsOf: container.appendingPathComponent("license.txt"), encoding: .utf8) else {
-            return false
+        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick") else { return false }
+
+        // Read from license.json
+        let jsonURL = container.appendingPathComponent("license.json")
+        if let data = try? Data(contentsOf: jsonURL),
+           let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+            guard let plan = json["plan"] as? String, !plan.isEmpty else { return false }
+            if let expiresStr = json["expiresAt"] as? String {
+                let fmt = ISO8601DateFormatter()
+                if let expiry = fmt.date(from: expiresStr) {
+                    return expiry > Date()
+                }
+            }
+            return true
         }
-        return content.trimmingCharacters(in: .whitespacesAndNewlines) == "pro"
+        return false
     }
 
     private func requirePro(_ action: () -> Void) {

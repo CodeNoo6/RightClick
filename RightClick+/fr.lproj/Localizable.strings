@@ -4,23 +4,37 @@
 "menu.version" = "Version %@";
 "menu.plan.free" = "Plan : Gratuit";
 "menu.plan.pro" = "Plan : Pro ✓";
+"menu.checkForUpdates" = "Rechercher des mises à jour…";
 
 "upgrade.title" = "Passer à Pro";
 "upgrade.subtitle" = "Débloquez toutes les fonctionnalités de RightClick+";
 "upgrade.feat1" = "✓  Couper et coller des fichiers dans le Finder";
 "upgrade.feat2" = "✓  Formats Office et Apple (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  Fonctionnalités et mises à jour futures";
-"upgrade.monthly" = "1,99 $ / mois";
-"upgrade.annual" = "9,99 $ / an  (économisez 58 %)";
-"upgrade.lifetime" = "14,99 $  paiement unique";
+"upgrade.monthly" = "1 $ / mois";
+"upgrade.annual" = "11 $ / an  (économisez 58 %)";
 "upgrade.buy" = "Obtenir Pro →";
 "upgrade.key_placeholder" = "Clé de licence  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "Activer";
 "upgrade.cancel" = "Peut-être plus tard";
 
-"license.activated" = "🎉 Pro activé ! Merci.";
+"license.activated" = "🎉 Pro à vie activé ! Merci.";
+"license.activated_monthly" = "🎉 Pro mensuel activé ! %d jours restants.";
+"license.activated_annual" = "🎉 Pro annuel activé ! %d jours restants.";
 "license.invalid_format" = "Format invalide. Utilisez XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "Clé introuvable. Vérifiez votre e-mail.";
+"license.expired" = "Votre licence a expiré. Veuillez la renouveler.";
+
+"license.expiry.soon.title" = "Votre licence expire dans %d jour(s)";
+"license.expiry.soon.body" = "Renouvelez maintenant pour conserver toutes les fonctionnalités Pro sans interruption.";
+"license.expiry.today.title" = "Votre licence expire aujourd'hui";
+"license.expiry.today.body" = "Renouvelez maintenant pour ne pas perdre l'accès aux fonctionnalités Pro.";
+"license.expiry.renew" = "Renouveler →";
+"license.expiry.dismiss" = "Me rappeler plus tard";
+
+"menu.plan.monthly" = "Plan : Pro mensuel ✓ (%d jours restants)";
+"menu.plan.annual" = "Plan : Pro annuel ✓ (%d jours restants)";
+"menu.plan.lifetime" = "Plan : Pro à vie ✓";
 
 "onboarding.title" = "Bienvenue dans RightClick+";
 "onboarding.subtitle" = "Deux étapes rapides pour commencer";

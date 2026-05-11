@@ -97,7 +97,7 @@ class UpgradeView: NSView {
         priceStack.orientation = .horizontal
         priceStack.spacing = 6
         priceStack.translatesAutoresizingMaskIntoConstraints = false
-        for key in ["upgrade.monthly", "upgrade.annual", "upgrade.lifetime"] {
+        for key in ["upgrade.monthly", "upgrade.annual"] {
             let pill = NSTextField(labelWithString: loc(key))
             pill.font = .systemFont(ofSize: 10.5, weight: .medium)
             pill.textColor = .secondaryLabelColor

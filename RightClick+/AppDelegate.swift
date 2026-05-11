@@ -1,16 +1,34 @@
 import Cocoa
 import FinderSync
 import ServiceManagement
+import Sparkle
 import os
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let log = OSLog(subsystem: "gimomagic.RightClick-", category: "AppDelegate")
     var statusItem: NSStatusItem?
+    var updaterController: SPUStandardUpdaterController!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
         registerLoginItem()
         setupMenuBar()
         checkExtensionEnabled()
+        LicenseManager.shared.revalidate()
+
+        NotificationCenter.default.addObserver(forName: LicenseManager.licenseUpdatedNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.refreshPlanItemTitle()
+            self?.checkLicenseExpiry()
+        }
+
+        // Revalidate every 12 hours automatically
+        Timer.scheduledTimer(withTimeInterval: 43200, repeats: true) { _ in
+            LicenseManager.shared.revalidate()
+        }
     }
 
     func setupMenuBar() {
@@ -18,32 +36,74 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem?.button {
             button.image = makeMenuBarMouseIcon()
         }
+        
         let menu = NSMenu()
+        menu.delegate = self
+        menu.autoenablesItems = false
+        statusItem?.menu = menu
+        
+        buildMenu(menu)
+    }
 
-        // About
+    func menuWillOpen(_ menu: NSMenu) {
+        LicenseManager.shared.revalidate()
+    }
+
+    func buildMenu(_ menu: NSMenu) {
+        menu.removeAllItems()
+        
         let aboutItem = NSMenuItem(title: NSLocalizedString("menu.about", comment: ""), action: #selector(showAbout), keyEquivalent: "")
         aboutItem.target = self
+        aboutItem.isEnabled = true
         menu.addItem(aboutItem)
 
-        // Version
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.0"
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let versionItem = NSMenuItem(title: String(format: NSLocalizedString("menu.version", comment: ""), version), action: nil, keyEquivalent: "")
         versionItem.isEnabled = false
         menu.addItem(versionItem)
 
-        // Plan
-        let isPro = (try? String(contentsOf: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "653RS235MN.gimomagic.RightClick")!.appendingPathComponent("license.txt"), encoding: .utf8))?.trimmingCharacters(in: .whitespacesAndNewlines) == "pro"
-        let planKey = isPro ? "menu.plan.pro" : "menu.plan.free"
-        let planItem = NSMenuItem(title: NSLocalizedString(planKey, comment: ""), action: isPro ? nil : #selector(openUpgrade), keyEquivalent: "")
+        let planItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        planItem.tag = 99 // Etiqueta para encontrarlo luego
         planItem.target = self
         menu.addItem(planItem)
+        refreshPlanItemTitle()
 
         menu.addItem(.separator())
-        // let uninstall = NSMenuItem(title: "Uninstall RightClick+…", action: #selector(uninstallApp), keyEquivalent: "")
-        // uninstall.target = self
-        // menu.addItem(uninstall)
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        statusItem?.menu = menu
+
+        let updateItem = NSMenuItem(title: NSLocalizedString("menu.checkForUpdates", comment: ""), action: #selector(SPUStandardUpdaterController.checkForUpdates(_:)), keyEquivalent: "")
+        updateItem.target = updaterController
+        updateItem.isEnabled = true
+        menu.addItem(updateItem)
+
+        menu.addItem(.separator())
+        let quitItem = NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        quitItem.isEnabled = true
+        menu.addItem(quitItem)
+    }
+
+    func refreshPlanItemTitle() {
+        guard let menu = statusItem?.menu, let planItem = menu.item(withTag: 99) else { return }
+        
+        let isPro = LicenseManager.shared.isPro
+        let planTitle: String
+        if isPro {
+            switch LicenseManager.shared.plan {
+            case .monthly:
+                let days = LicenseManager.shared.daysRemaining ?? 0
+                planTitle = String(format: NSLocalizedString("menu.plan.monthly", comment: ""), days)
+            case .annual:
+                let days = LicenseManager.shared.daysRemaining ?? 0
+                planTitle = String(format: NSLocalizedString("menu.plan.annual", comment: ""), days)
+            default:
+                planTitle = NSLocalizedString("menu.plan.lifetime", comment: "")
+            }
+        } else {
+            planTitle = NSLocalizedString("menu.plan.free", comment: "")
+        }
+        
+        planItem.title = planTitle
+        planItem.action = isPro ? nil : #selector(openUpgrade)
+        planItem.isEnabled = true
     }
 
     @objc func uninstallApp() {
@@ -155,8 +215,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for url in urls {
             guard let host = url.host else { continue }
             switch host {
-            case "create":  handleCreate(url: url)
-            case "paste":   handlePaste(url: url)
+            case "create":  
+                LicenseManager.shared.revalidate()
+                handleCreate(url: url)
+            case "paste":   
+                LicenseManager.shared.revalidate()
+                handlePaste(url: url)
             case "upgrade": UpgradeWindowController.shared.show()
             default: break
             }
@@ -179,6 +243,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func registerLoginItem() {
         try? SMAppService.mainApp.register()
+    }
+
+    func checkLicenseExpiry() {
+        guard let days = LicenseManager.shared.daysRemaining, days <= 2 else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            NSApp.setActivationPolicy(.regular)
+            NSApp.activate(ignoringOtherApps: true)
+
+            let alert = NSAlert()
+            if days == 0 {
+                alert.messageText = NSLocalizedString("license.expiry.today.title", comment: "")
+                alert.informativeText = NSLocalizedString("license.expiry.today.body", comment: "")
+            } else {
+                alert.messageText = String(format: NSLocalizedString("license.expiry.soon.title", comment: ""), days)
+                alert.informativeText = NSLocalizedString("license.expiry.soon.body", comment: "")
+            }
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: NSLocalizedString("license.expiry.renew", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("license.expiry.dismiss", comment: ""))
+
+            if alert.runModal() == .alertFirstButtonReturn {
+                NSWorkspace.shared.open(URL(string: "https://rightclickmac.com/#pricing")!)
+            }
+            NSApp.setActivationPolicy(.accessory)
+        }
     }
 
     @objc func showAbout() {
@@ -221,11 +311,76 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         do {
-            try "".write(to: fileURL, atomically: true, encoding: .utf8)
+            switch ext {
+            case "pages", "numbers", "key":
+                createIWorkFile(at: fileURL, ext: ext)
+                return
+            case "rtf":
+                let rtf = "{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Helvetica;}} \\pard\\f0\\fs24 }"
+                try rtf.write(to: fileURL, atomically: true, encoding: .utf8)
+            default:
+                try "".write(to: fileURL, atomically: true, encoding: .utf8)
+            }
             os_log("Created: %{public}@", log: log, fileURL.path)
             selectAndRename(fileURL)
         } catch {
             os_log("ERROR creating: %{public}@", log: log, error.localizedDescription)
+        }
+    }
+
+    private func createIWorkFile(at fileURL: URL, ext: String) {
+        let bundleID: String
+        let appName: String
+        switch ext {
+        case "pages":   bundleID = "com.apple.iWork.Pages";   appName = "Pages"
+        case "numbers": bundleID = "com.apple.iWork.Numbers"; appName = "Numbers"
+        default:        bundleID = "com.apple.iWork.Keynote"; appName = "Keynote"
+        }
+
+        // Check the app is installed before trying AppleScript
+        guard NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) != nil else {
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = "\(appName) is not installed"
+                alert.informativeText = "\(appName) is required to create .\(ext) files. Download it for free from the App Store."
+                alert.addButton(withTitle: "Open App Store")
+                alert.addButton(withTitle: "Cancel")
+                if alert.runModal() == .alertFirstButtonReturn {
+                    let storeURLs: [String: String] = [
+                        "pages":   "macappstore://itunes.apple.com/app/id409201541",
+                        "numbers": "macappstore://itunes.apple.com/app/id409203825",
+                        "key":     "macappstore://itunes.apple.com/app/id409183694",
+                    ]
+                    if let urlStr = storeURLs[ext], let url = URL(string: urlStr) {
+                        NSWorkspace.shared.open(url)
+                    }
+                }
+            }
+            return
+        }
+
+        let path = fileURL.path.replacingOccurrences(of: "\\", with: "\\\\")
+                                .replacingOccurrences(of: "\"", with: "\\\"")
+
+        let script = """
+        tell application id "\(bundleID)"
+            set d to make new document
+            save d in POSIX file "\(path)"
+            close d saving no
+        end tell
+        """
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            var error: NSDictionary?
+            NSAppleScript(source: script)?.executeAndReturnError(&error)
+            DispatchQueue.main.async {
+                if error == nil && FileManager.default.fileExists(atPath: fileURL.path) {
+                    os_log("IWork created: %{public}@", log: self.log, fileURL.path)
+                    self.selectAndRename(fileURL)
+                } else {
+                    os_log("IWork error: %{public}@", log: self.log, "\(error as Any)")
+                }
+            }
         }
     }
 

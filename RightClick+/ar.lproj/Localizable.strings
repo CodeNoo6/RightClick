@@ -4,23 +4,37 @@
 "menu.version" = "الإصدار %@";
 "menu.plan.free" = "الخطة: مجانية";
 "menu.plan.pro" = "الخطة: Pro ✓";
+"menu.checkForUpdates" = "التحقق من التحديثات…";
 
 "upgrade.title" = "الترقية إلى Pro";
 "upgrade.subtitle" = "فتح جميع ميزات RightClick+";
 "upgrade.feat1" = "✓  قص ولصق الملفات في Finder";
 "upgrade.feat2" = "✓  تنسيقات Office وApple (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  ميزات وتحديثات مستقبلية";
-"upgrade.monthly" = "1.99 دولار / شهر";
-"upgrade.annual" = "9.99 دولار / سنة  (وفر 58%)";
-"upgrade.lifetime" = "14.99 دولار  دفعة واحدة";
+"upgrade.monthly" = "$1 دولار / شهر";
+"upgrade.annual" = "$11 دولار / سنة  (وفر 58%)";
 "upgrade.buy" = "احصل على Pro ←";
 "upgrade.key_placeholder" = "مفتاح الترخيص  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "تفعيل";
 "upgrade.cancel" = "ربما لاحقاً";
 
-"license.activated" = "🎉 تم تفعيل Pro! شكراً.";
+"license.activated" = "🎉 تم تفعيل Pro مدى الحياة! شكراً.";
+"license.activated_monthly" = "🎉 تم تفعيل Pro الشهري! %d أيام متبقية.";
+"license.activated_annual" = "🎉 تم تفعيل Pro السنوي! %d أيام متبقية.";
 "license.invalid_format" = "تنسيق غير صالح. استخدم XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "المفتاح غير موجود. تحقق من بريدك الإلكتروني.";
+"license.expired" = "انتهت صلاحية ترخيصك. يرجى تجديده.";
+
+"license.expiry.soon.title" = "ترخيصك ينتهي خلال %d يوم/أيام";
+"license.expiry.soon.body" = "جدد الآن للاحتفاظ بجميع ميزات Pro دون انقطاع.";
+"license.expiry.today.title" = "ترخيصك ينتهي اليوم";
+"license.expiry.today.body" = "جدد الآن لتجنب فقدان الوصول إلى ميزات Pro.";
+"license.expiry.renew" = "تجديد ←";
+"license.expiry.dismiss" = "تذكيري لاحقاً";
+
+"menu.plan.monthly" = "الخطة: Pro الشهري ✓ (%d أيام متبقية)";
+"menu.plan.annual" = "الخطة: Pro السنوي ✓ (%d أيام متبقية)";
+"menu.plan.lifetime" = "الخطة: Pro مدى الحياة ✓";
 
 "onboarding.title" = "مرحباً بك في RightClick+";
 "onboarding.subtitle" = "خطوتان سريعتان للبدء";

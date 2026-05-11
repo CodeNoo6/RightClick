@@ -4,23 +4,37 @@
 "menu.version" = "Versione %@";
 "menu.plan.free" = "Piano: Gratuito";
 "menu.plan.pro" = "Piano: Pro ✓";
+"menu.checkForUpdates" = "Cerca aggiornamenti…";
 
 "upgrade.title" = "Passa a Pro";
 "upgrade.subtitle" = "Sblocca tutte le funzionalità di RightClick+";
 "upgrade.feat1" = "✓  Taglia e incolla file nel Finder";
 "upgrade.feat2" = "✓  Formati Office e Apple (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  Funzionalità future e aggiornamenti";
-"upgrade.monthly" = "$ 1,99 / mese";
-"upgrade.annual" = "$ 9,99 / anno  (risparmia il 58%)";
-"upgrade.lifetime" = "$ 14,99  pagamento unico";
+"upgrade.monthly" = "$ 1 / mese";
+"upgrade.annual" = "$ 11 / anno  (risparmia il 58%)";
 "upgrade.buy" = "Ottieni Pro →";
 "upgrade.key_placeholder" = "Chiave di licenza  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "Attiva";
 "upgrade.cancel" = "Forse più tardi";
 
-"license.activated" = "🎉 Pro attivato! Grazie.";
+"license.activated" = "🎉 Pro a vita attivato! Grazie.";
+"license.activated_monthly" = "🎉 Pro mensile attivato! %d giorni rimanenti.";
+"license.activated_annual" = "🎉 Pro annuale attivato! %d giorni rimanenti.";
 "license.invalid_format" = "Formato non valido. Usa XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "Chiave non trovata. Controlla la tua email.";
+"license.expired" = "La tua licenza è scaduta. Per favore rinnovala.";
+
+"license.expiry.soon.title" = "La tua licenza scade tra %d giorno/i";
+"license.expiry.soon.body" = "Rinnova ora per mantenere tutte le funzionalità Pro senza interruzioni.";
+"license.expiry.today.title" = "La tua licenza scade oggi";
+"license.expiry.today.body" = "Rinnova ora per non perdere l'accesso alle funzionalità Pro.";
+"license.expiry.renew" = "Rinnova →";
+"license.expiry.dismiss" = "Ricordamelo più tardi";
+
+"menu.plan.monthly" = "Piano: Pro Mensile ✓ (%d giorni rimasti)";
+"menu.plan.annual" = "Piano: Pro Annuale ✓ (%d giorni rimasti)";
+"menu.plan.lifetime" = "Piano: Pro a Vita ✓";
 
 "onboarding.title" = "Benvenuto in RightClick+";
 "onboarding.subtitle" = "Due semplici passaggi per iniziare";

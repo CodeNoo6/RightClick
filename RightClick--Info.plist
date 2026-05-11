@@ -12,6 +12,10 @@
 	<string>RightClick+ necesita permiso para crear archivos en tus Documentos.</string>
 	<key>NSDownloadsFolderUsageDescription</key>
 	<string>RightClick+ necesita permiso para crear archivos en tus Descargas.</string>
+	<key>SUFeedURL</key>
+	<string>https://rightclickmac.com/appcast.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

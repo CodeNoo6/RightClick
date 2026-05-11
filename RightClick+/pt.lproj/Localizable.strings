@@ -4,23 +4,37 @@
 "menu.version" = "Versão %@";
 "menu.plan.free" = "Plano: Grátis";
 "menu.plan.pro" = "Plano: Pro ✓";
+"menu.checkForUpdates" = "Verificar atualizações…";
 
 "upgrade.title" = "Atualizar para Pro";
 "upgrade.subtitle" = "Desbloqueie todos os recursos do RightClick+";
 "upgrade.feat1" = "✓  Recortar e colar arquivos no Finder";
 "upgrade.feat2" = "✓  Formatos Office e Apple (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  Recursos e atualizações futuras";
-"upgrade.monthly" = "$ 1,99 / mês";
-"upgrade.annual" = "$ 9,99 / ano  (economize 58%)";
-"upgrade.lifetime" = "$ 14,99  pagamento único";
+"upgrade.monthly" = "$ 1 / mês";
+"upgrade.annual" = "$ 11 / ano  (economize 58%)";
 "upgrade.buy" = "Obter Pro →";
 "upgrade.key_placeholder" = "Chave de licença  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "Ativar";
 "upgrade.cancel" = "Talvez mais tarde";
 
-"license.activated" = "🎉 Pro ativado! Obrigado.";
+"license.activated" = "🎉 Pro Vitalício ativado! Obrigado.";
+"license.activated_monthly" = "🎉 Pro Mensal ativado! %d dias restantes.";
+"license.activated_annual" = "🎉 Pro Anual ativado! %d dias restantes.";
 "license.invalid_format" = "Formato inválido. Use XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "Chave não encontrada. Verifique seu e-mail.";
+"license.expired" = "Sua licença expirou. Por favor renove-a.";
+
+"license.expiry.soon.title" = "Sua licença expira em %d dia(s)";
+"license.expiry.soon.body" = "Renove agora para manter todos os recursos Pro sem interrupção.";
+"license.expiry.today.title" = "Sua licença expira hoje";
+"license.expiry.today.body" = "Renove agora para não perder o acesso aos recursos Pro.";
+"license.expiry.renew" = "Renovar →";
+"license.expiry.dismiss" = "Lembrar mais tarde";
+
+"menu.plan.monthly" = "Plano: Pro Mensal ✓ (%d dias restantes)";
+"menu.plan.annual" = "Plano: Pro Anual ✓ (%d dias restantes)";
+"menu.plan.lifetime" = "Plano: Pro Vitalício ✓";
 
 "onboarding.title" = "Bem-vindo ao RightClick+";
 "onboarding.subtitle" = "Dois passos rápidos para começar";

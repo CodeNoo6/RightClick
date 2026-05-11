@@ -4,23 +4,37 @@
 "menu.version" = "Версия %@";
 "menu.plan.free" = "Тариф: Бесплатный";
 "menu.plan.pro" = "Тариф: Pro ✓";
+"menu.checkForUpdates" = "Проверить обновления…";
 
 "upgrade.title" = "Перейти на Pro";
 "upgrade.subtitle" = "Разблокируйте все функции RightClick+";
 "upgrade.feat1" = "✓  Вырезать и вставить файлы в Finder";
 "upgrade.feat2" = "✓  Форматы Office и Apple (docx, xlsx, pptx, pages…)";
 "upgrade.feat3" = "✓  Будущие функции и обновления";
-"upgrade.monthly" = "$1.99 / месяц";
-"upgrade.annual" = "$9.99 / год  (экономия 58%)";
-"upgrade.lifetime" = "$14.99  единовременно";
+"upgrade.monthly" = "$1 / месяц";
+"upgrade.annual" = "$11 / год  (экономия 58%)";
 "upgrade.buy" = "Получить Pro →";
 "upgrade.key_placeholder" = "Лицензионный ключ  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "Активировать";
 "upgrade.cancel" = "Может быть позже";
 
-"license.activated" = "🎉 Pro активирован! Спасибо.";
+"license.activated" = "🎉 Пожизненный Pro активирован! Спасибо.";
+"license.activated_monthly" = "🎉 Ежемесячный Pro активирован! Осталось %d дней.";
+"license.activated_annual" = "🎉 Годовой Pro активирован! Осталось %d дней.";
 "license.invalid_format" = "Неверный формат. Используйте XXXX-XXXX-XXXX-XXXX.";
 "license.invalid_key" = "Ключ не найден. Проверьте вашу почту.";
+"license.expired" = "Срок действия лицензии истёк. Пожалуйста, обновите её.";
+
+"license.expiry.soon.title" = "Ваша лицензия истекает через %d день(дней)";
+"license.expiry.soon.body" = "Обновите сейчас, чтобы сохранить все функции Pro без перерыва.";
+"license.expiry.today.title" = "Ваша лицензия истекает сегодня";
+"license.expiry.today.body" = "Обновите сейчас, чтобы не потерять доступ к функциям Pro.";
+"license.expiry.renew" = "Обновить →";
+"license.expiry.dismiss" = "Напомнить позже";
+
+"menu.plan.monthly" = "Тариф: Ежемесячный Pro ✓ (осталось %d дней)";
+"menu.plan.annual" = "Тариф: Годовой Pro ✓ (осталось %d дней)";
+"menu.plan.lifetime" = "Тариф: Пожизненный Pro ✓";
 
 "onboarding.title" = "Добро пожаловать в RightClick+";
 "onboarding.subtitle" = "Два быстрых шага для начала работы";

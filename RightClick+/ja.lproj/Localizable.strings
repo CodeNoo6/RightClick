@@ -4,23 +4,37 @@
 "menu.version" = "バージョン %@";
 "menu.plan.free" = "プラン：無料";
 "menu.plan.pro" = "プラン：Pro ✓";
+"menu.checkForUpdates" = "アップデートを確認…";
 
 "upgrade.title" = "Proにアップグレード";
 "upgrade.subtitle" = "RightClick+のすべての機能を解放";
 "upgrade.feat1" = "✓  Finderでファイルをカット＆ペースト";
 "upgrade.feat2" = "✓  OfficeおよびApple形式（docx、xlsx、pptx、pages…）";
 "upgrade.feat3" = "✓  将来の機能とアップデート";
-"upgrade.monthly" = "$1.99 / 月";
-"upgrade.annual" = "$9.99 / 年  (58%お得)";
-"upgrade.lifetime" = "$14.99  買い切り";
+"upgrade.monthly" = "$1 / 月";
+"upgrade.annual" = "$11 / 年  (58%お得)";
 "upgrade.buy" = "Proを取得 →";
 "upgrade.key_placeholder" = "ライセンスキー  (XXXX-XXXX-XXXX-XXXX)";
 "upgrade.activate" = "有効化";
 "upgrade.cancel" = "後で";
 
-"license.activated" = "🎉 Proが有効になりました！ありがとうございます。";
+"license.activated" = "🎉 永久Proが有効になりました！ありがとうございます。";
+"license.activated_monthly" = "🎉 月額Proが有効になりました！残り%d日。";
+"license.activated_annual" = "🎉 年額Proが有効になりました！残り%d日。";
 "license.invalid_format" = "形式が無効です。XXXX-XXXX-XXXX-XXXXの形式を使用してください。";
 "license.invalid_key" = "キーが見つかりません。メールを確認してください。";
+"license.expired" = "ライセンスの有効期限が切れました。更新してください。";
+
+"license.expiry.soon.title" = "ライセンスの有効期限まであと%d日です";
+"license.expiry.soon.body" = "今すぐ更新して、すべてのPro機能を継続してご利用ください。";
+"license.expiry.today.title" = "ライセンスは本日で期限切れになります";
+"license.expiry.today.body" = "今すぐ更新して、Pro機能へのアクセスを失わないようにしてください。";
+"license.expiry.renew" = "更新する →";
+"license.expiry.dismiss" = "後で通知する";
+
+"menu.plan.monthly" = "プラン：月額Pro ✓（残り%d日）";
+"menu.plan.annual" = "プラン：年額Pro ✓（残り%d日）";
+"menu.plan.lifetime" = "プラン：永久Pro ✓";
 
 "onboarding.title" = "RightClick+へようこそ";
 "onboarding.subtitle" = "始めるための2つのステップ";
