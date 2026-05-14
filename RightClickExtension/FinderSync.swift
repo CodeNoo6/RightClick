@@ -72,7 +72,6 @@ class FinderSync: FIFinderSync {
         submenu.addItem(makeItem(loc("file.pptx"),    action: #selector(createPptx(_:)),    symbol: "rectangle.on.rectangle",           pro: true))
         submenu.addItem(makeItem(loc("file.pages"),   action: #selector(createPages(_:)),   symbol: "doc.fill",                         pro: true))
         submenu.addItem(makeItem(loc("file.numbers"), action: #selector(createNumbers(_:)), symbol: "tablecells",                       pro: true))
-        submenu.addItem(makeItem(loc("file.key"),     action: #selector(createKey(_:)),     symbol: "rectangle.on.rectangle",           pro: true))
         submenu.addItem(makeItem(loc("file.rtf"),     action: #selector(createRtf(_:)),     symbol: "doc.richtext",                     pro: true))
         newItem.submenu = submenu
         menu.addItem(newItem)
